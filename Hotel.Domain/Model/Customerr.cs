@@ -7,27 +7,38 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Model
 {
-    public class Customer
+    public class Customerr
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public ContactInfo Contact { get; set; }
-        private List<Member> _members = new List<Member>(); //gn dubbels
-
-        public Customer(int id, string name, ContactInfo contact)
+        public int? Id { get; set; }
+        private string _name;
+        public string Name
         {
-            Id = id;
-            Name = name;
-            Contact = contact;
+            get => _name;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value) || value.Length > 500)
+                    throw new CustomerException("Invalid name");
+
+                _name = value;
+            }
         }
 
-        public Customer(string name, ContactInfo contact)
+        public ContactInfo Contact { get; set; }
+        private List<Member> _members = new List<Member>();
+
+        public Customerr(int? id, string name, ContactInfo contact) : this(name, contact)
+        {
+            Id = id;
+        }
+
+        public Customerr(string name, ContactInfo contact)
         {
             Name = name;
             Contact = contact;
         }
 
         public IReadOnlyList<Member> GetMembers() { return _members.AsReadOnly(); }
+
         public void AddMember(Member member)
         {
             if (!_members.Contains(member))
@@ -35,7 +46,8 @@ namespace Hotel.Domain.Model
             else
                 throw new CustomerException("AddMember");
         }
-        public void RemoveMember(Member member) 
+
+        public void RemoveMember(Member member)
         {
             if (_members.Contains(member))
                 _members.Remove(member);
@@ -43,4 +55,5 @@ namespace Hotel.Domain.Model
                 throw new CustomerException("RemoveMember");
         }
     }
+
 }
