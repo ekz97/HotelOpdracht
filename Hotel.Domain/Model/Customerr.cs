@@ -10,6 +10,9 @@ namespace Hotel.Domain.Model
     public class Customerr
     {
         public int? Id { get; set; }
+
+        public ContactInfo Contact { get; set; }
+        private List<Member> _members = new List<Member>();
         private string _name;
         public string Name
         {
@@ -23,8 +26,6 @@ namespace Hotel.Domain.Model
             }
         }
 
-        public ContactInfo Contact { get; set; }
-        private List<Member> _members = new List<Member>();
 
         public Customerr(int? id, string name, ContactInfo contact) : this(name, contact)
         {
