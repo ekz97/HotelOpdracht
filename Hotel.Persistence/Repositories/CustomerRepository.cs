@@ -126,8 +126,7 @@ namespace Hotel.Persistence.Repositories
         {
             try
             {
-                string getMaxIdQuery = "SELECT MAX(id) FROM Customer";
-                string insertCustomerQuery = "INSERT INTO Customer(id , name, email, phone, address, status) VALUES(@id , @name, @email, @phone, @address, @status)";
+                string insertCustomerQuery = "INSERT INTO Customer(name, email, phone, address, status) VALUES(@name, @email, @phone, @address, @status)";
                 string insertMemberQuery = "INSERT INTO Member(customerId, name, birthday, status) VALUES (@customerid, @name, @birthday, @status)";
 
                 using (SqlConnection conn = getConnection())
@@ -138,29 +137,25 @@ namespace Hotel.Persistence.Repositories
                     try
                     {
                         cmd.Transaction = sqlTransaction;
-                        cmd.CommandText = getMaxIdQuery;
-                        int maxId = Convert.ToInt32(cmd.ExecuteScalar());
-
                         cmd.CommandText = insertCustomerQuery;
 
-                        int newId = maxId + 1;
-                        customer.Id = newId;
-
-                        cmd.Parameters.AddWithValue("@id", customer.Id);
                         cmd.Parameters.AddWithValue("@name", customer.Name);
                         cmd.Parameters.AddWithValue("@email", customer.Contact.Email);
                         cmd.Parameters.AddWithValue("@phone", customer.Contact.Phone);
                         cmd.Parameters.AddWithValue("@address", customer.Contact.Address.ToAddressLine());
                         cmd.Parameters.AddWithValue("@status", 1);
-                      
+
                         cmd.ExecuteNonQuery();
-                      
+
+                        // Assuming the database assigns the ID automatically, retrieve the new ID
+                        cmd.CommandText = "SELECT @@IDENTITY";
+                        int newId = Convert.ToInt32(cmd.ExecuteScalar());
 
                         foreach (Member member in customer.GetMembers())
                         {
                             cmd.CommandText = insertMemberQuery;
                             cmd.Parameters.Clear();
-                            cmd.Parameters.AddWithValue("@customerid", customer.Id);
+                            cmd.Parameters.AddWithValue("@customerid", newId);
                             cmd.Parameters.AddWithValue("@name", member.Name);
                             cmd.Parameters.AddWithValue("@birthday", member.Birthday);
                             cmd.Parameters.AddWithValue("@status", 1);
@@ -180,6 +175,7 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("addcustomer", ex);
             }
         }
+
 
 
         public void UpdateCustomer(Customerr customer)

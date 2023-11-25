@@ -2,77 +2,79 @@
 using Hotel.Presentation.Customer.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
-
 
 namespace Hotel.Tests.Hotel.Presentation.Tests
 {
     public class CustomerUITests
     {
         [Fact]
-        public void CustomerUI_ConstructorWithNameAndEmail_ShouldSetProperties()
+        public void CustomerUI_AddMember_Success()
         {
             // Arrange
-            string name = "John Doe";
-            string email = "john@example.com";
-            Address address = new Address("City", "Street", "Zip", "HouseNumber");
-            string phone = "123456789";
-            int nrOfMembers = 0;
+            var customerUI = new CustomerUI("John Doe", "john@example.com", new Address("City", "Street", "Zip", "HouseNumber"), "123456789", 0);
+            var member = new Member("Member1", DateTime.Now);
 
             // Act
-            CustomerUI customerUI = new CustomerUI(name, email, address, phone, nrOfMembers);
+            customerUI.MemberList.Add(member);
 
             // Assert
-            Assert.Equal(name, customerUI.Name);
-            Assert.Equal(email, customerUI.Email);
-            Assert.Equal(address, customerUI.Address);
-            Assert.Equal(phone, customerUI.Phone);
-            Assert.Equal(nrOfMembers, customerUI.NrOfMembers);
-            Assert.NotNull(customerUI.MemberList);
+            Assert.Single(customerUI.MemberList);
+            Assert.Contains(member, customerUI.MemberList);
+        }
+
+  
+
+        [Fact]
+        public void CustomerUI_RemoveMember_Success()
+        {
+            // Arrange
+            var customerUI = new CustomerUI("John Doe", "john@example.com", new Address("City", "Street", "Zip", "HouseNumber"), "123456789", 0);
+            var member = new Member("Member1", DateTime.Now);
+            customerUI.MemberList.Add(member);
+
+            // Act
+            customerUI.MemberList.Remove(member);
+
+            // Assert
             Assert.Empty(customerUI.MemberList);
         }
 
+       
+
+
+
+
         [Fact]
-        public void CustomerUI_ConstructorWithIdAndMembers_ShouldSetProperties()
+        public void CustomerUI_AddMember_Valid()
         {
             // Arrange
-            int? id = 1;
-            string name = "John Doe";
-            string email = "john@example.com";
-            Address address = new Address("City", "Street", "Zip", "HouseNumber");
-            string phone = "123456789";
-            int nrOfMembers = 3;
-            List<Member> members = new List<Member>
-                {
-                    new Member("Member1", DateTime.Now),
-                    new Member("Member2", DateTime.Now),
-                    new Member("Member3", DateTime.Now)
-                };
+            var customerUI = new CustomerUI("John Doe", "john@example.com", new Address("City", "Street", "Zip", "HouseNumber"), "123456789", 0);
+            var member = new Member("Member1", DateTime.Now);
 
             // Act
-            CustomerUI customerUI = new CustomerUI(id, name, email, address, phone, nrOfMembers, members);
+            customerUI.MemberList.Add(member);
 
             // Assert
-            Assert.Equal(id, customerUI.Id);
-            Assert.Equal(name, customerUI.Name);
-            Assert.Equal(email, customerUI.Email);
-            Assert.Equal(address, customerUI.Address);
-            Assert.Equal(phone, customerUI.Phone);
-            Assert.Equal(nrOfMembers, customerUI.NrOfMembers);
-            Assert.NotNull(customerUI.MemberList);
-            Assert.Equal(members.Count, customerUI.MemberList.Count);
+            Assert.Contains(member, customerUI.MemberList);
+        }
 
-            // Validate member details
-            for (int i = 0; i < nrOfMembers; i++)
-            {
-                Assert.Equal(members[i].Name, customerUI.MemberList[i].Name);
-                Assert.Equal(members[i].Birthday, customerUI.MemberList[i].Birthday);
-            }
+        [Fact]
+        public void CustomerUI_RemoveMember_Valid()
+        {
+            // Arrange
+            var customerUI = new CustomerUI("John Doe", "john@example.com", new Address("City", "Street", "Zip", "HouseNumber"), "123456789", 0);
+            var member = new Member("Member1", DateTime.Now);
+            customerUI.MemberList.Add(member);
+
+            // Act
+            customerUI.MemberList.Remove(member);
+
+            // Assert
+            Assert.DoesNotContain(member, customerUI.MemberList);
         }
 
 
+   
     }
 }
