@@ -25,7 +25,7 @@ namespace Hotel.Domain.Managers
             {
                 return _customerRepository.GetCustomers(filter);
             }
-            catch(Exception ex)
+            catch(CustomerManagerException ex)
             {
                 throw new CustomerManagerException("GetCustomers");
             }
@@ -58,21 +58,7 @@ namespace Hotel.Domain.Managers
         }
 
 
-        //public void AddMembers(List<Member> members)
-        //{
-        //    try
-        //    {
-        //        foreach(Member member in members)
-        //        {
-        //            _memberRepository.AddMember(member);
-        //        }
-               
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new CustomerManagerException("AddMember", ex);
-        //    }
-        //}
+
 
         public void UpdateCustomer(Customerr customer)
         {
