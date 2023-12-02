@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Negeer SecretFile.cs in elk project
+**/Repository.cs
+
+# Negeer App.Config in elk project
+**/App.config
