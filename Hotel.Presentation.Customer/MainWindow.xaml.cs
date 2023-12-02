@@ -58,7 +58,7 @@ namespace Hotel.Presentation.Customer
              .Select(member => new MemberUI(member.Name, member.Birthday))
              .ToList();
 
-                customerUIs.Add(new CustomerUI(customer.Id, customer.Name, customer.Contact.Email, customer.Contact.Address, customer.Contact.Phone, customer.GetMembers().Count,memberUIList));
+                customerUIs.Add(new CustomerUI(customer.Id, customer.Name, customer.Contact.Email, customer.Contact.Address.ToString(), customer.Contact.Phone, customer.GetMembers().Count,memberUIList));
             }
         }
         

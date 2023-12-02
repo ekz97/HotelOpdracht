@@ -51,15 +51,16 @@ namespace Hotel.Presentation.Customer
                 {
                     MemberDataGrid.ItemsSource = null;
                 }
-             
-                string[] addressParts = CustomerUI.Address.Split('|');
-                if (addressParts.Length >= 4)
-                {
-                    CityTextBox.Text = addressParts[0];
+
+                string address = "Gent [9000] - Noordstraat - 222";
+                string[] separators = { " - ", " [", "] - " };
+                string[] addressParts = address.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                CityTextBox.Text = addressParts[0];
                     ZipTextBox.Text = addressParts[1];
                     StreetTextBox.Text = addressParts[2];
                     HouseNumberTextBox.Text = addressParts[3];
-                }
+              
             }
         }
 
@@ -69,7 +70,13 @@ namespace Hotel.Presentation.Customer
             MemberDataGrid.CommitEdit(); // Zorg ervoor dat eventuele lopende bewerkingen worden toegepast
 
             var memberList = (List<MemberUI>)MemberDataGrid.ItemsSource;
-            memberList.Add(new Model.MemberUI("", new DateTime(2000, 1, 1)));
+            if (memberList == null)
+            {
+                memberList = new List<MemberUI>();
+                MemberDataGrid.ItemsSource = memberList;
+            }
+
+            memberList.Add(new MemberUI("", DateTime.Now));
 
             // Herstel de bron van de DataGrid
             MemberDataGrid.ItemsSource = null;
