@@ -16,7 +16,7 @@ namespace Hotel.Domain.Model
         private string _name;
         public string Name
         {
-            get => _name;
+            get { return _name; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value) || value.Length > 500)
