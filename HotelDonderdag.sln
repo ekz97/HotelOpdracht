@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppDL", "ConsoleAppD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Util", "Hotel.Util\Hotel.Util.csproj", "{40307D7D-6187-4A1F-B025-E377363CBEF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Tests", "Hotel.Tests\Hotel.Tests.csproj", "{98D2EDA0-2526-4C2F-BEFB-B617DBC5602C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Tests", "Hotel.Tests\Hotel.Tests.csproj", "{98D2EDA0-2526-4C2F-BEFB-B617DBC5602C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

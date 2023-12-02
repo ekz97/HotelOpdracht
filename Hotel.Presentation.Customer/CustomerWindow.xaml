@@ -29,7 +29,7 @@
         <Label Grid.Row="2" Grid.Column="2" Content="Street" Margin="5"/>
         <Label Grid.Row="3" Grid.Column="0" Content="Phone" Margin="5"/>
         <Label Grid.Row="3" Grid.Column="2" Content="House number" Margin="5"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Name="IdTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="0" Grid.Column="1" Name="IdTextBox" Margin="5" VerticalAlignment="Center" IsEnabled="False" />
         <TextBox Grid.Row="0" Grid.Column="3" Name="CityTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="1" Grid.Column="1" Name="NameTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="1" Grid.Column="3" Name="ZipTextBox" Margin="5" VerticalAlignment="Center" />
@@ -37,18 +37,30 @@
         <TextBox Grid.Row="2" Grid.Column="3" Name="StreetTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="3" Grid.Column="1" Name="PhoneTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="3" Grid.Column="3" Name="HouseNumberTextBox" Margin="5" VerticalAlignment="Center" />
-        <DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="5" Name="MemberDataGrid" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTemplateColumn Header="Birthday">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DatePicker SelectedDate="{Binding Birthday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <DataGrid Grid.Row="4" Grid.Column="0" Margin="5,5,10,5" Name="MemberDataGrid" AutoGenerateColumns="False" Grid.ColumnSpan="4">
+    <DataGrid.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Add New" Click="AddNewRow_Click"/>
+            <MenuItem Header="Delete Member" Click="DeleteMember_Click"/>
+        </ContextMenu>
+    </DataGrid.ContextMenu>
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+        <DataGridTemplateColumn Header="Birthday">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                     
+                    <DatePicker SelectedDate="{Binding Birthday,UpdateSourceTrigger=PropertyChanged}" />
+
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <!-- Voeg hier extra kolommen toe indien nodig -->
+    </DataGrid.Columns>
+</DataGrid>
+
+
+
 
         <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="AddButton" Click="AddButton_Click" Content="Add"/>
         <Button Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" Name="CancelButton" Click="CancelButton_Click" Content="Cancel"/>

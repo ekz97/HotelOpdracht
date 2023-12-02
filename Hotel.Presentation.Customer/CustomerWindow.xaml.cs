@@ -1,14 +1,17 @@
 ﻿using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
-using Hotel.Presentation.Customer.Model;
 using Hotel.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using Hotel.Presentation.Customer.Model;
 
 namespace Hotel.Presentation.Customer
 {
@@ -21,11 +24,14 @@ namespace Hotel.Presentation.Customer
         {
             InitializeComponent();
             this.CustomerUI = customerUI;
+            IdTextBox.IsEnabled = false;
+
             FillCustomerInformation();
         }
 
         private void FillCustomerInformation()
         {
+            
             customerManager = new CustomerManager(RepositoryFactory.CustomerRepository);
 
             if (CustomerUI != null)
@@ -34,9 +40,19 @@ namespace Hotel.Presentation.Customer
                 NameTextBox.Text = CustomerUI.Name;
                 EmailTextBox.Text = CustomerUI.Email;
                 PhoneTextBox.Text = CustomerUI.Phone;
-                MemberDataGrid.ItemsSource = CustomerUI.MemberList;
 
-                string[] addressParts = CustomerUI.Address.ToAddressLine().Split('|');
+                if (CustomerUI.Members != null && CustomerUI.Members.Any())
+                {
+                  
+
+                    MemberDataGrid.ItemsSource = CustomerUI.Members;
+                }
+                else
+                {
+                    MemberDataGrid.ItemsSource = null;
+                }
+             
+                string[] addressParts = CustomerUI.Address.Split('|');
                 if (addressParts.Length >= 4)
                 {
                     CityTextBox.Text = addressParts[0];
@@ -47,6 +63,43 @@ namespace Hotel.Presentation.Customer
             }
         }
 
+
+        private void AddNewRow_Click(object sender, RoutedEventArgs e)
+        {
+            MemberDataGrid.CommitEdit(); // Zorg ervoor dat eventuele lopende bewerkingen worden toegepast
+
+            var memberList = (List<MemberUI>)MemberDataGrid.ItemsSource;
+            memberList.Add(new Model.MemberUI("", new DateTime(2000, 1, 1)));
+
+            // Herstel de bron van de DataGrid
+            MemberDataGrid.ItemsSource = null;
+            MemberDataGrid.ItemsSource = memberList;
+        }
+
+        private void DeleteMember_Click(object sender, RoutedEventArgs e)
+        {
+            if (MemberDataGrid.SelectedItem != null)
+            {
+                var memberList = (List<MemberUI>)MemberDataGrid.ItemsSource;
+                var selectedMember = (MemberUI)MemberDataGrid.SelectedItem;
+
+            
+                // Controleer of de geselecteerde rij een bestaande member is
+                if (selectedMember.Name != "" && memberList.Contains(selectedMember))
+                {
+                    memberList.Remove(selectedMember);
+
+
+                    // Vernieuw de bron van de DataGrid
+                    MemberDataGrid.ItemsSource = null;
+                    MemberDataGrid.ItemsSource = memberList;
+                }
+
+                
+            }
+        }
+
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -54,34 +107,14 @@ namespace Hotel.Presentation.Customer
 
         private void AddOrUpdateCustomer()
         {
-            Address address = new Address(CityTextBox.Text, StreetTextBox.Text, ZipTextBox.Text, HouseNumberTextBox.Text);
-
+            
             if (CustomerUI == null)
             {
                 AddCustomer();
             }
             else
             {
-                Keyboard.ClearFocus();
-
-                CustomerUI.Email = EmailTextBox.Text;
-                CustomerUI.Phone = PhoneTextBox.Text;
-                CustomerUI.Name = NameTextBox.Text;
-                CustomerUI.Address = address;
-
-                List<Member> itemsToAdd = new List<Member>(MemberDataGrid.Items.Cast<Member>());
-
-                CustomerUI.MemberList.Clear();
-                Customerr cust = customerManager.GetCustomer(CustomerUI.Id);
-
-                cust = new Customerr(CustomerUI.Id, CustomerUI.Name, new ContactInfo(CustomerUI.Email, CustomerUI.Phone, CustomerUI.Address));
-
-                foreach (Member member in itemsToAdd)
-                {
-                    cust.AddMember(member);
-                }
-
-                customerManager.UpdateCustomer(cust);
+                UpdateCustomer();
             }
 
             DialogResult = true;
@@ -89,16 +122,62 @@ namespace Hotel.Presentation.Customer
         }
 
 
+        private void UpdateCustomer()
+        {
+            Address address = new Address(CityTextBox.Text, StreetTextBox.Text, ZipTextBox.Text, HouseNumberTextBox.Text);
+            Keyboard.ClearFocus();
+
+            //CustomerUI.Email = EmailTextBox.Text;
+            //CustomerUI.Phone = PhoneTextBox.Text;
+            //CustomerUI.Name = NameTextBox.Text;
+            //CustomerUI.Address = address.ToAddressLine();
+
+              bool allMembersValid = MemberDataGrid.Items.Cast<MemberUI>()
+    .All(member => !string.IsNullOrWhiteSpace(member.Name) && member.Birthday != new DateTime(2001, 1, 1));
+
+            if (!allMembersValid)
+            {
+                MessageBox.Show("Lege inputvelden gedetecteerd , deze worden niet meegenomen in de update");
+            }
+
+            // Controleer of de member-velden niet leeg zijn voordat je ze toevoegt
+            List<Member> itemsToAdd = MemberDataGrid.Items.Cast<MemberUI>()
+                .Where(memberUI => !string.IsNullOrWhiteSpace(memberUI.Name) && memberUI.Birthday != new DateTime(2001, 1, 1))
+                .Select(memberUI => new Member(
+                    memberUI.Name,
+                    memberUI.Birthday
+                )).ToList();
+
+          
+             Customerr cust = customerManager.GetCustomer(CustomerUI.Id);
+
+       
+
+             cust = new Customerr(CustomerUI.Id, CustomerUI.Name, new ContactInfo(CustomerUI.Email, CustomerUI.Phone,address));
+      
+
+            foreach (Member member in itemsToAdd)
+            {
+                cust.AddMember(member);
+            }
+
+            customerManager.UpdateCustomer(cust);
+        }
+
+
+
         private void AddCustomer()
         {
             Address address = new Address(CityTextBox.Text, StreetTextBox.Text, ZipTextBox.Text, HouseNumberTextBox.Text);
 
-            CustomerUI = new CustomerUI(NameTextBox.Text, EmailTextBox.Text, address, PhoneTextBox.Text, 0);
+            CustomerUI = new CustomerUI(NameTextBox.Text, EmailTextBox.Text, address.ToAddressLine(), PhoneTextBox.Text, 0);
             Keyboard.ClearFocus();
 
             List<Member> itemsToAdd = new List<Member>(MemberDataGrid.Items.Cast<Member>());
 
-            Customerr cust = new Customerr(CustomerUI.Name, new ContactInfo(CustomerUI.Email, CustomerUI.Phone, CustomerUI.Address));
+          
+
+            Customerr  cust = new Customerr(CustomerUI.Name, new ContactInfo(CustomerUI.Email, CustomerUI.Phone, address));
 
             foreach (Member member in itemsToAdd)
             {

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Hotel.Domain.Model
 {
-    public class Member : INotifyPropertyChanged
+    public class Member 
     {
         private string _name;
         private DateTime? _birthday;
@@ -16,7 +16,7 @@ namespace Hotel.Domain.Model
                 if (_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged(nameof(Name));
+        
                 }
             }
         }
@@ -29,17 +29,12 @@ namespace Hotel.Domain.Model
                 if (_birthday != value)
                 {
                     _birthday = value;
-                    OnPropertyChanged(nameof(Birthday));
+      
                 }
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+ 
 
         public Member(string name, DateTime? birthday)
         {
@@ -52,28 +47,17 @@ namespace Hotel.Domain.Model
 
         //public event PropertyChangedEventHandler? PropertyChanged;
 
-        //public DateOnly Birthday
-        //{
-        //    get
-        //    {
-        //        return _birthday;
-        //    }
-        //    set
-        //    {
-        //        //if (DateOnly.FromDateTime(DateTime.Now) <= value) throw new CustomerException("member");
-        //        _birthday = value;
-        //    }
-        //}
-        //public override bool Equals(object? obj)
-        //{
-        //    return obj is Member member &&
-        //           _name == member._name &&
-        //           _birthday.Equals(member._birthday);
-        //}
-        //public override int GetHashCode()
-        //{
-        //    return HashCode.Combine(_name, _birthday);
-        //}
+   
+        public override bool Equals(object? obj)
+        {
+            return obj is Member member &&
+                   _name == member._name &&
+                   _birthday.Equals(member._birthday);
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_name, _birthday);
+        }
 
 
     }

@@ -31,12 +31,12 @@ namespace Hotel.Presentation.Customer
     {
         private ObservableCollection<CustomerUI> customerUIs = new ObservableCollection<CustomerUI>();
         private CustomerManager customerManager;
-        private string conn = "Data Source=NB21-6CDPYD3\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
+ 
 
         public MainWindow()
         {
             InitializeComponent();
-            CustomerDataGrid.ItemsSource = customerUIs; // Verplaatst naar hier
+            CustomerDataGrid.ItemsSource = customerUIs; 
 
             LoadData();
         }
@@ -50,11 +50,19 @@ namespace Hotel.Presentation.Customer
         private void RefreshCustomerData(string filter = null)
         {
             customerUIs.Clear();
+      
             foreach (var customer in customerManager.GetCustomers(filter))
             {
-                customerUIs.Add(new CustomerUI(customer.Id, customer.Name, customer.Contact.Email, customer.Contact.Address, customer.Contact.Phone, customer.GetMembers().Count, new List<Member>(customer.GetMembers())));
+
+                List<MemberUI> memberUIList = customer.GetMembers()
+             .Select(member => new MemberUI(member.Name, member.Birthday))
+             .ToList();
+
+                customerUIs.Add(new CustomerUI(customer.Id, customer.Name, customer.Contact.Email, customer.Contact.Address, customer.Contact.Phone, customer.GetMembers().Count,memberUIList));
             }
         }
+        
+
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
@@ -74,6 +82,7 @@ namespace Hotel.Presentation.Customer
             else
             {
                 CustomerWindow w = new CustomerWindow((CustomerUI)CustomerDataGrid.SelectedItem);
+              
                 var result = w.ShowDialog();
                 RefreshCustomerData(); // Laad gegevens opnieuw na het bijwerken
             }
