@@ -15,5 +15,7 @@ namespace Hotel.Domain.Model
 
         Description Description { get; set; }
         PriceInfo PriceInfo { get; set; }
+
+
      }
 }

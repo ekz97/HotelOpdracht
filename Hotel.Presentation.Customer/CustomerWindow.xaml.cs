@@ -17,53 +17,42 @@ namespace Hotel.Presentation.Customer
 {
     public partial class CustomerWindow : Window
     {
-        public CustomerUI CustomerUI { get; set; }
+        private CustomerUI _customerUI { get; set; }
         private CustomerManager customerManager;
 
         public CustomerWindow(CustomerUI customerUI)
         {
             InitializeComponent();
-            this.CustomerUI = customerUI;
-            IdTextBox.IsEnabled = false;
-
+            _customerUI = customerUI;
+            customerManager = new CustomerManager(RepositoryFactory.CustomerRepository);
             FillCustomerInformation();
         }
 
         private void FillCustomerInformation()
-        {
-            
-            customerManager = new CustomerManager(RepositoryFactory.CustomerRepository);
-
-            if (CustomerUI != null)
+        { 
+            if (_customerUI != null)
             {
-                IdTextBox.Text = CustomerUI.Id?.ToString();
-                NameTextBox.Text = CustomerUI.Name;
-                EmailTextBox.Text = CustomerUI.Email;
-                PhoneTextBox.Text = CustomerUI.Phone;
+                IdTextBox.Text = _customerUI.Id?.ToString();
+                NameTextBox.Text = _customerUI.Name;
+                EmailTextBox.Text = _customerUI.Email;
+                PhoneTextBox.Text = _customerUI.Phone;
 
-                if (CustomerUI.Members != null && CustomerUI.Members.Any())
+                string[] addressParts = _customerUI.transformAddress().Split('|');
+                CityTextBox.Text = addressParts[0];
+                ZipTextBox.Text = addressParts[1];
+                StreetTextBox.Text = addressParts[2];
+                HouseNumberTextBox.Text = addressParts[3];
+
+                if (_customerUI.Members != null && _customerUI.Members.Any())
                 {
-                  
-
-                    MemberDataGrid.ItemsSource = CustomerUI.Members;
+                    MemberDataGrid.ItemsSource = _customerUI.Members;
                 }
                 else
                 {
                     MemberDataGrid.ItemsSource = null;
-                }
-
-                string[] addressParts = CustomerUI.Address.Split('|');
-                if (addressParts.Length >= 4)
-                {
-                    CityTextBox.Text = addressParts[0];
-                    ZipTextBox.Text = addressParts[1];
-                    StreetTextBox.Text = addressParts[2];
-                    HouseNumberTextBox.Text = addressParts[3];
-                }
+                }               
             }
         }
-
-
         private void AddNewRow_Click(object sender, RoutedEventArgs e)
         {
             MemberDataGrid.CommitEdit(); // Zorg ervoor dat eventuele lopende bewerkingen worden toegepast
@@ -77,11 +66,9 @@ namespace Hotel.Presentation.Customer
 
             memberList.Add(new MemberUI("", DateTime.Now));
 
-            // Herstel de bron van de DataGrid
             MemberDataGrid.ItemsSource = null;
             MemberDataGrid.ItemsSource = memberList;
         }
-
         private void DeleteMember_Click(object sender, RoutedEventArgs e)
         {
             if (MemberDataGrid.SelectedItem != null)
@@ -97,7 +84,6 @@ namespace Hotel.Presentation.Customer
 
 
                     // Vernieuw de bron van de DataGrid
-                    MemberDataGrid.ItemsSource = null;
                     MemberDataGrid.ItemsSource = memberList;
                 }
 
@@ -114,7 +100,7 @@ namespace Hotel.Presentation.Customer
         private void AddOrUpdateCustomer()
         {
             
-            if (CustomerUI == null)
+            if (_customerUI == null)
             {
                 AddCustomer();
             }
@@ -155,11 +141,11 @@ namespace Hotel.Presentation.Customer
                 )).ToList();
 
           
-             Customerr cust = customerManager.GetCustomer(CustomerUI.Id);
+             Customerr cust = customerManager.GetCustomer(_customerUI.Id);
 
        
 
-             cust = new Customerr(CustomerUI.Id, CustomerUI.Name, new ContactInfo(CustomerUI.Email, CustomerUI.Phone,address));
+             cust = new Customerr(_customerUI.Id, _customerUI.Name, new ContactInfo(_customerUI.Email, _customerUI.Phone,address));
       
 
             foreach (Member member in itemsToAdd)
@@ -176,14 +162,14 @@ namespace Hotel.Presentation.Customer
         {
             Address address = new Address(CityTextBox.Text, StreetTextBox.Text, ZipTextBox.Text, HouseNumberTextBox.Text);
 
-            CustomerUI = new CustomerUI(NameTextBox.Text, EmailTextBox.Text, address.ToAddressLine(), PhoneTextBox.Text, 0);
+            _customerUI = new CustomerUI(NameTextBox.Text, EmailTextBox.Text, address.ToAddressLine(), PhoneTextBox.Text, 0);
             Keyboard.ClearFocus();
 
             List<Member> itemsToAdd = new List<Member>(MemberDataGrid.Items.Cast<Member>());
 
           
 
-            Customerr  cust = new Customerr(CustomerUI.Name, new ContactInfo(CustomerUI.Email, CustomerUI.Phone, address));
+            Customerr  cust = new Customerr(_customerUI.Name, new ContactInfo(_customerUI.Email, _customerUI.Phone, address));
 
             foreach (Member member in itemsToAdd)
             {
@@ -206,18 +192,17 @@ namespace Hotel.Presentation.Customer
 
         public void DeleteCustomer()
         {
-            if (CustomerUI != null && CustomerUI.Id != null)
+            if (_customerUI != null && _customerUI.Id != null)
             {
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this customer?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
                     try
                     {
-                        customerManager.DeleteCustomer((int)CustomerUI.Id);
+                        customerManager.DeleteCustomer((int)_customerUI.Id);
                         MessageBox.Show("Customer deleted successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         //DialogResult = true;
                         Close();
-
                     }
                     catch (Exception ex)
                     {
