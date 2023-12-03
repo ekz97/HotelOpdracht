@@ -10,7 +10,6 @@ namespace Hotel.Domain.Model
     public class Organiser
     {
         public int? Id { get; set; }
-
         public ContactInfo Contact { get; set; }
         private string _name;
         public List<Activity> _activities { get; set; }

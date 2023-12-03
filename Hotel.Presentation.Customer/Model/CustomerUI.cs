@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace Hotel.Presentation.Customer.Model
 {
@@ -41,7 +42,7 @@ namespace Hotel.Presentation.Customer.Model
         private List<MemberUI> _members;
         public List<MemberUI> Members
         {
-            get => _members;
+            get { return _members; }
             set
             {
                 _members = value;
@@ -54,5 +55,16 @@ namespace Hotel.Presentation.Customer.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public string transformAddress()
+        {
+            Match match = Regex.Match(Address, @"^(.*?) \[(\d+)\] - (.*?) - (.*?)$");
+
+            if (match.Success)
+            {
+                return $"{match.Groups[1].Value}|{match.Groups[2].Value}|{match.Groups[3].Value}|{match.Groups[4].Value}";
+            }
+            return Address;
+        }
+
     }
 }

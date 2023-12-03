@@ -32,59 +32,60 @@ namespace Hotel.Presentation.Customer
         private ObservableCollection<CustomerUI> customerUIs = new ObservableCollection<CustomerUI>();
         private CustomerManager customerManager;
  
-
         public MainWindow()
         {
             InitializeComponent();
-            CustomerDataGrid.ItemsSource = customerUIs; 
-
-            LoadData();
-        }
-
-        private void LoadData(string filter = null)
-        {
+            CustomerDataGrid.ItemsSource = customerUIs;
             customerManager = new CustomerManager(RepositoryFactory.CustomerRepository);
-            RefreshCustomerData(filter);
+            RefreshCustomerData();
         }
 
         private void RefreshCustomerData(string filter = null)
         {
+            //commentaar
             customerUIs.Clear();
-      
             foreach (var customer in customerManager.GetCustomers(filter))
             {
-
                 List<MemberUI> memberUIList = customer.GetMembers()
              .Select(member => new MemberUI(member.Name, member.Birthday))
              .ToList();
-
-                customerUIs.Add(new CustomerUI(customer.Id, customer.Name, customer.Contact.Email, customer.Contact.Address.ToAddressLine(), customer.Contact.Phone, customer.GetMembers().Count,memberUIList));
+                customerUIs.Add(new CustomerUI(customer.Id,customer.Name, customer.Contact.Email, customer.Contact.Address.ToString(), customer.Contact.Phone, customer.GetMembers().Count,memberUIList));
             }
         }
-        
-
-
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            LoadData(SearchTextBox.Text); // Gebruik LoadData in plaats van RefreshCustomerData
+            RefreshCustomerData(SearchTextBox.Text);
+        }
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && SearchTextBox.IsFocused)
+            {
+                RefreshCustomerData(SearchTextBox.Text);
+            }
         }
 
         private void MenuItemAddCustomer_Click(object sender, RoutedEventArgs e)
         {
-            CustomerWindow w = new CustomerWindow(null);
-            if (w.ShowDialog() == true)
+            CustomerWindow window = new CustomerWindow(null);
+            if (window.ShowDialog() == true)
+            {
                 RefreshCustomerData();
+            }
         }
 
         private void MenuItemUpdateCustomer_Click(object sender, RoutedEventArgs e)
         {
-            if (CustomerDataGrid.SelectedItem == null) MessageBox.Show("not selected", "update");
+            if (CustomerDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Select the customer you want to update!", "update", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
             else
             {
-                CustomerWindow w = new CustomerWindow((CustomerUI)CustomerDataGrid.SelectedItem);
-              
-                var result = w.ShowDialog();
-                RefreshCustomerData(); // Laad gegevens opnieuw na het bijwerken
+                CustomerWindow window = new CustomerWindow((CustomerUI)CustomerDataGrid.SelectedItem);
+                if(window.ShowDialog() == true)
+                {
+                    RefreshCustomerData();
+                }
             }
         }
 
@@ -92,27 +93,14 @@ namespace Hotel.Presentation.Customer
         {
             if (CustomerDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Please select a customer to delete", "Delete Customer", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                MessageBox.Show("Select the customer you want to delete!", "Delete", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
-            try
+            else
             {
-                CustomerUI selectedCustomer = (CustomerUI)CustomerDataGrid.SelectedItem;
-                CustomerWindow w = new CustomerWindow(selectedCustomer);
-                w.DeleteCustomer(); // Roep de DeleteCustomer methode aan vanuit CustomerWindow
-
-                // Hier kun je eventueel een bericht weergeven als de klant met succes is verwijderd
+                CustomerWindow window = new CustomerWindow((CustomerUI)CustomerDataGrid.SelectedItem);
+                window.DeleteCustomer();
+                RefreshCustomerData();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to delete customer: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            // Vernieuw de klantgegevens in de grid na verwijdering
-            RefreshCustomerData();
-        }
-
+        } 
     }
-
 }

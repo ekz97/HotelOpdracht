@@ -28,7 +28,7 @@ namespace Hotel.Domain.Model
         }
 
         private string _city;
-        public string City { get { return _city; } set { if (string.IsNullOrWhiteSpace(value)) throw new CustomerException("Mun is empty"); _city = value; } }
+        public string City { get { return _city; } set { if (string.IsNullOrWhiteSpace(value)) throw new CustomerException("City is empty"); _city = value; } }
         private string _postalCode;
         public string PostalCode { get { return _postalCode; } set { if (string.IsNullOrWhiteSpace(value)) throw new CustomerException("Zip is empty"); _postalCode = value; } }
         private string _houseNumber;
