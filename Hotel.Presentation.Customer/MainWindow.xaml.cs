@@ -42,6 +42,7 @@ namespace Hotel.Presentation.Customer
 
         private void RefreshCustomerData(string filter = null)
         {
+            //commentaar
             customerUIs.Clear();
             foreach (var customer in customerManager.GetCustomers(filter))
             {
@@ -76,7 +77,7 @@ namespace Hotel.Presentation.Customer
         {
             if (CustomerDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Select the Customer you want to update!", "update", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Select the customer you want to update!", "update", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -92,7 +93,7 @@ namespace Hotel.Presentation.Customer
         {
             if (CustomerDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Select the Customer you want to update", "Delete", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Select the customer you want to delete!", "Delete", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {

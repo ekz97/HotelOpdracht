@@ -25,12 +25,8 @@ namespace Hotel.Persistence.Repositories
             SqlConnection connection = new SqlConnection(connectionString);
             return connection;
         }
-
-
-
         public IReadOnlyList<Customerr> GetCustomers(string filter)
         {
-
             try
             {
                 Dictionary<int,Customerr> customers = new Dictionary<int, Customerr>();
@@ -60,10 +56,7 @@ namespace Hotel.Persistence.Repositories
                                 Member member = new Member((string)reader["membername"], (DateTime)reader["birthday"]);
                                 customers[id].AddMember(member);
                             }
-                        }
-
-
-                   
+                        }      
                     }
                 }
                 return customers.Values.ToList();
@@ -73,7 +66,6 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("getcustomer", ex);
             }
         }
-
         public Customerr GetCustomerById(int? customerId)
         {
             Customerr customer = null;
@@ -121,7 +113,6 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("getcustomerbyid", ex);
             }
         }
-
         public void AddCustomer(Customerr customer)
         {
             try
@@ -175,9 +166,6 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("addcustomer", ex);
             }
         }
-
-
-
         public void UpdateCustomer(Customerr customer)
         {
             try
@@ -237,8 +225,6 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("Failed to update customer", ex);
             }
         }
-
-
         public void DeleteCustomer(int customerId)
         {
             try
@@ -285,10 +271,5 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("Failed to delete customer", ex);
             }
         }
-
-
-
-
-
     }
 }
