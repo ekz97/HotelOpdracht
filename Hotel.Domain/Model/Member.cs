@@ -41,11 +41,6 @@ namespace Hotel.Domain.Model
             Name = name;
             Birthday = birthday;
         }
-        //private string _name;
-        //public string Name { get { return _name; } set { if (string.IsNullOrWhiteSpace(value)) throw new CustomerException("member"); _name = value; } }
-        //private DateOnly _birthday;
-
-        //public event PropertyChangedEventHandler? PropertyChanged;
 
    
         public override bool Equals(object? obj)

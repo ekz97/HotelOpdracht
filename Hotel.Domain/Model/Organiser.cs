@@ -13,30 +13,55 @@ namespace Hotel.Domain.Model
 
         public ContactInfo Contact { get; set; }
         private string _name;
+        public List<Activity> _activities { get; set; }
+        public IReadOnlyList<Activity> GetActivities() { return _activities.AsReadOnly(); }
+
+        public void AddActivity(Activity activity)
+        {
+            if (!_activities.Contains(activity))
+                _activities.Add(activity);
+            else
+                throw new OrganiserException("AddActivity");
+        }
+
+        public void RemoveActivity(Activity activity)
+        {
+            if (_activities.Contains(activity))
+                _activities.Remove(activity);
+            else
+                throw new OrganiserException("RemoveActivity");
+        }
         public string Name
         {
             get { return _name; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value) || value.Length > 500)
-                    throw new CustomerException("Invalid name");
+                    throw new OrganiserException("Invalid name");
 
                 _name = value;
             }
         }
 
 
-        public Organiser(int? id, string name, ContactInfo contact) : this(name, contact)
+        public Organiser(int? id, string name, List<Activity> activities) 
         {
             Id = id;
+            _name = name;
+            _activities = activities;
         }
 
-        public Organiser(string name, ContactInfo contact)
+
+        public Organiser(int? id, string name, List<Activity> activities, ContactInfo contactInfo)
         {
-            Name = name;
-            Contact = contact;
+            Id = id;
+            _name = name;
+            _activities = activities;
+            Contact = contactInfo;
         }
 
-        
+
+
+
     }
 }

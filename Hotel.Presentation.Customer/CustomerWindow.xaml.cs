@@ -52,7 +52,7 @@ namespace Hotel.Presentation.Customer
                     MemberDataGrid.ItemsSource = null;
                 }
 
-                string[] addressParts = CustomerUI.Address.Split('|');
+        string[] addressParts = CustomerUI.Address.Split('|');
                 if (addressParts.Length >= 4)
                 {
                     CityTextBox.Text = addressParts[0];

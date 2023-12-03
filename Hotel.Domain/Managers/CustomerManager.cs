@@ -12,7 +12,7 @@ namespace Hotel.Domain.Managers
     public class CustomerManager
     {
         private ICustomerRepository _customerRepository;
-        //private IMemberRepository _memberRepository;
+     
 
         public CustomerManager(ICustomerRepository customerRepository)
         {
