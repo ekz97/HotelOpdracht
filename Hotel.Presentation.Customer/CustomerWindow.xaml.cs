@@ -25,7 +25,7 @@ namespace Hotel.Presentation.Customer
         public CustomerWindow(CustomerUI customerUI)
         {
             InitializeComponent();
-            _customerUI = customerUI;
+            this._customerUI = customerUI;
             customerManager = new CustomerManager(RepositoryFactory.CustomerRepository);
 
             if(_customerUI == null)
@@ -55,6 +55,7 @@ namespace Hotel.Presentation.Customer
 
         private void AddNewRow_Click(object sender, RoutedEventArgs e)
         {
+            MemberDataGrid.CommitEdit();
             _members.Add(new MemberUI("", DateTime.Now));
         }
         private void DeleteMember_Click(object sender, RoutedEventArgs e)
@@ -112,7 +113,7 @@ namespace Hotel.Presentation.Customer
                 )).ToList();
 
             Customerr customer = customerManager.GetCustomer(_customerUI.Id);
-            customer = new Customerr(_customerUI.Id, _customerUI.Name, new ContactInfo(_customerUI.Email, _customerUI.Phone,address));
+            customer = new Customerr(_customerUI.Id, NameTextBox.Text, new ContactInfo(EmailTextBox.Text, PhoneTextBox.Text,address));
             foreach (Member member in membersToAdd)
             {
                 customer.AddMember(member);
