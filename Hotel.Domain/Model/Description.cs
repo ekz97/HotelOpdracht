@@ -49,5 +49,13 @@ namespace Hotel.Domain.Model
                     _name = value;
             }
         }
+
+        public Description(int duration, string location, string explanation, string name)
+        {
+            Duration = duration;
+            Location = location;
+            Explanation = explanation;
+            Name = name;
+        }
     }
 }

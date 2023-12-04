@@ -47,17 +47,15 @@ namespace Hotel.Domain.Model
             }
         }
 
-        private int _adultAge;
-        public int AdultAge
+
+        public int AdultAge { get; private set; } = 18;
+
+        public PriceInfo(int adultPrice, int childPrice, int discount)
         {
-            get { return _adultAge; }
-            set
-            {
-                if (value < 18 )
-                    throw new PriceInfoException("Adult age should be minimum 18");
-                else
-                    _adultAge = value;
-            }
+            AdultPrice = adultPrice;
+            ChildPrice = childPrice;
+            Discount = discount;
+           
         }
     }
 }

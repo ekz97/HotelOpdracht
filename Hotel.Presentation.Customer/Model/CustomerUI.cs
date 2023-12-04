@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Hotel.Presentation.Customer.Model
 {
-    public class CustomerUI : INotifyPropertyChanged
+    public class CustomerUI /* : INotifyPropertyChanged*/
     {
         public CustomerUI(string name, string email, string address, string phone, int nrOfMembers)
         {
@@ -31,13 +31,13 @@ namespace Hotel.Presentation.Customer.Model
 
         public int? Id { get; set; }
         private string _name;
-        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
+        public string Name { get => _name; set { _name = value;/* OnPropertyChanged();*/ } }
         private string _email;
-        public string Email { get => _email; set { _email = value; OnPropertyChanged(); } }
+        public string Email { get => _email; set { _email = value; /*OnPropertyChanged(); */} }
         private string _address;
-        public string Address { get => _address; set { _address = value; OnPropertyChanged(); } }
+        public string Address { get => _address; set { _address = value; /*OnPropertyChanged();*/ } }
         private string _phone;
-        public string Phone { get => _phone; set { _phone = value; OnPropertyChanged(); } }
+        public string Phone { get => _phone; set { _phone = value; /*OnPropertyChanged();*/ } }
         public int NrOfMembers { get; set; }
         private List<MemberUI> _members;
         public List<MemberUI> Members

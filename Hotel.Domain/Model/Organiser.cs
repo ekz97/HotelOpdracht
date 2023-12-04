@@ -43,21 +43,25 @@ namespace Hotel.Domain.Model
         }
 
 
-        public Organiser(int? id, string name, List<Activity> activities) 
+        public Organiser(int? id, string name) 
         {
             Id = id;
             _name = name;
-            _activities = activities;
+         
         }
 
 
-        public Organiser(int? id, string name, List<Activity> activities, ContactInfo contactInfo)
+        public Organiser(int? id, string name, ContactInfo contactInfo)
         {
             Id = id;
             _name = name;
-            _activities = activities;
+      
             Contact = contactInfo;
         }
+
+    
+
+
 
 
 

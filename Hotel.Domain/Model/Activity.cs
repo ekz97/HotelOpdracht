@@ -39,6 +39,15 @@ namespace Hotel.Domain.Model
 
         public Description Description { get; set; }
         public PriceInfo PriceInfo { get; set; }
+
+        public Activity(int id , DateTime fixture, int nrOfPlaces , Description description , PriceInfo priceInfo)
+        {
+            Id = id;
+            Fixture = fixture;
+            NrOfPlaces = nrOfPlaces;
+            Description = description;
+            PriceInfo = priceInfo;
+        }
     }
 }
 

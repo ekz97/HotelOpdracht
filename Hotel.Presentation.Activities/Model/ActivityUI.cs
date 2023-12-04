@@ -32,7 +32,7 @@ namespace Hotel.Presentation.Activities.Model
         public int? Id
         {
             get => _id;
-            set { _id = value; OnPropertyChanged(); }
+            set { _id = value; }
         }
 
         private DateTime _fixture;
@@ -46,7 +46,7 @@ namespace Hotel.Presentation.Activities.Model
                 else
                 {
                     _fixture = value;
-                    OnPropertyChanged();
+              
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace Hotel.Presentation.Activities.Model
                 else
                 {
                     _nrOfPlaces = value;
-                    OnPropertyChanged();
+       
                 }
             }
         }
@@ -71,49 +71,49 @@ namespace Hotel.Presentation.Activities.Model
         public int DurationDescription
         {
             get => _durationDescription;
-            set { _durationDescription = value; OnPropertyChanged(); }
+            set { _durationDescription = value;}
         }
 
         private string _locationDescription;
         public string LocationDescription
         {
             get => _locationDescription;
-            set { _locationDescription = value; OnPropertyChanged(); }
+            set { _locationDescription = value; }
         }
 
         private string _explanationDescription;
         public string ExplanationDescription
         {
             get => _explanationDescription;
-            set { _explanationDescription = value; OnPropertyChanged(); }
+            set { _explanationDescription = value;  }
         }
 
         private string _nameDescription;
         public string NameDescription
         {
             get => _nameDescription;
-            set { _nameDescription = value; OnPropertyChanged(); }
+            set { _nameDescription = value;}
         }
 
         private int _childPriceInfo;
         public int ChildPriceInfo
         {
             get => _childPriceInfo;
-            set { _childPriceInfo = value; OnPropertyChanged(); }
+            set { _childPriceInfo = value;  }
         }
 
         private int _discountPriceInfo;
         public int DiscountPriceInfo
         {
             get => _discountPriceInfo;
-            set { _discountPriceInfo = value; OnPropertyChanged(); }
+            set { _discountPriceInfo = value;}
         }
 
         private int _adultAgePriceInfo;
         public int AdultAgePriceInfo
         {
             get => _adultAgePriceInfo;
-            set { _adultAgePriceInfo = value; OnPropertyChanged(); }
+            set { _adultAgePriceInfo = value; }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
