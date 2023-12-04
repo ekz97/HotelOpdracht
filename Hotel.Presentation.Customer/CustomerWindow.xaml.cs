@@ -55,7 +55,6 @@ namespace Hotel.Presentation.Customer
 
         private void AddNewRow_Click(object sender, RoutedEventArgs e)
         {
-            MemberDataGrid.CommitEdit();
             _members.Add(new MemberUI("", DateTime.Now));
         }
         private void DeleteMember_Click(object sender, RoutedEventArgs e)
@@ -95,7 +94,8 @@ namespace Hotel.Presentation.Customer
         private void UpdateCustomer()
         {
             Address address = new Address(CityTextBox.Text, StreetTextBox.Text, ZipTextBox.Text, HouseNumberTextBox.Text);
-            Keyboard.ClearFocus();
+            Customerr customer = customerManager.GetCustomer(_customerUI.Id);
+            customer = new Customerr(_customerUI.Id, NameTextBox.Text, new ContactInfo(EmailTextBox.Text, PhoneTextBox.Text, address));
 
             bool allMembersValid = _members
                 .All(member => !string.IsNullOrWhiteSpace(member.Name));
@@ -111,9 +111,6 @@ namespace Hotel.Presentation.Customer
                     memberUI.Name,
                     memberUI.Birthday
                 )).ToList();
-
-            Customerr customer = customerManager.GetCustomer(_customerUI.Id);
-            customer = new Customerr(_customerUI.Id, NameTextBox.Text, new ContactInfo(EmailTextBox.Text, PhoneTextBox.Text,address));
             foreach (Member member in membersToAdd)
             {
                 customer.AddMember(member);
@@ -125,14 +122,15 @@ namespace Hotel.Presentation.Customer
         {
             Address address = new Address(CityTextBox.Text, StreetTextBox.Text, ZipTextBox.Text, HouseNumberTextBox.Text);
             _customerUI = new CustomerUI(NameTextBox.Text, EmailTextBox.Text, address.ToAddressLine(), PhoneTextBox.Text, 0);
-
+            
+            Customerr customer = new Customerr(_customerUI.Name, new ContactInfo(_customerUI.Email, _customerUI.Phone, address));
             List<Member> membersToAdd = _members
                 .Where(memberUI => !string.IsNullOrWhiteSpace(memberUI.Name))
                 .Select(memberUI => new Member(
                     memberUI.Name,
                     memberUI.Birthday
                 )).ToList();
-            Customerr  customer = new Customerr(_customerUI.Name, new ContactInfo(_customerUI.Email, _customerUI.Phone, address));
+            
             foreach (Member member in membersToAdd)
             {
                 customer.AddMember(member);
