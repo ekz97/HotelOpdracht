@@ -1,14 +1,18 @@
-﻿using Hotel.Domain.Model;
+﻿using Hotel.Domain.Interfaces;
+using Hotel.Domain.Model;
+using Hotel.Persistence.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Hotel.Persistence.Repositories
 {
-    public class OrganisorRepository
+    public class OrganisorRepository : IOrganiserRepository
     {
         private string connectionString;
 
@@ -24,12 +28,58 @@ namespace Hotel.Persistence.Repositories
             return connection;
         }
 
+        //public IReadOnlyList<Organiser> GetOrganisers()
+        //{
+        //    try
+        //    {
+        //        Dictionary<int, Organiser> organisers = new Dictionary<int, Organiser>();
+        //        string sql = "SELECT  o.id AS organizerId, o.name, a.id AS activityId, a.fixture,a.nrOfPlaces,d.id AS descriptionId,d.duration,d.location,d.explanation, d.name AS descriptionName, p.id AS priceInfoId, p.adultPrice, p.childPrice, p.discount FROM dbo.Organiser o JOIN dbo.Activity a ON o.id = a.organiserId JOIN dbo.Description d ON a.descriptionId = d.id JOIN dbo.PriceInfo p ON a.priceInfoId = p.id WHERE o.status = 1 AND a.status = 1 AND d.status = 1 AND p.status = 1;";
+
+        //        using (SqlConnection conn = getConnection())
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            conn.Open();
+        //            cmd.CommandText = sql;
+        //            using (SqlDataReader reader = cmd.ExecuteReader())
+        //            {
+        //                while (reader.Read())
+        //                {
+        //                    int id = Convert.ToInt32(reader["organiserId"]);
+        //                    if (!organisers.ContainsKey(id))
+        //                    {
+        //                        Organiser organiser = new Organiser(id, (string)reader["name"]);
+        //                        organisers.Add(id, organiser);
+        //                    }
+        //                    if (!reader.IsDBNull(reader.GetOrdinal("activityId")))
+        //                    {
+
+        //                        Activity activity = new Activity(Convert.ToInt32(reader["activityId"]), (DateTime)reader["fixture"], Convert.ToInt32(reader["nrOfPlaces"]), new Description(Convert.ToInt32(reader["duration"]), (string)reader["location"], (string)reader["explanation"], (string)reader["descriptionName"]), new PriceInfo(Convert.ToInt32(reader["adultPrice"]), Convert.ToInt32(reader["childPrice"]), Convert.ToInt32(reader["discount"])));
+
+        //                        organisers[id].AddActivity(activity);
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        return organisers.Values.ToList();
+
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        throw new OrganiserRepositoryException("getcustomer", ex);
+        //    }
+
+
+        //}
+
+
         public IReadOnlyList<Organiser> GetOrganisers()
         {
             try
             {
                 Dictionary<int, Organiser> organisers = new Dictionary<int, Organiser>();
-                string sql = "SELECT  o.id AS organizerId, o.name, a.id AS activityId, a.fixture,a.nrOfPlaces,d.id AS descriptionId,d.duration,d.location,d.explanation, d.name AS descriptionName, p.id AS priceInfoId, p.adultPrice, p.childPrice, p.discount FROM dbo.Organiser o JOIN dbo.Activity a ON o.id = a.organiserId JOIN dbo.Description d ON a.descriptionId = d.id JOIN dbo.PriceInfo p ON a.priceInfoId = p.id WHERE o.status = 1 AND a.status = 1 AND d.status = 1 AND p.status = 1;";
+                string sql = "SELECT o.id, o.name FROM dbo.Organiser o Where o.status = 1";
 
                 using (SqlConnection conn = getConnection())
                 using (SqlCommand cmd = conn.CreateCommand())
@@ -40,26 +90,24 @@ namespace Hotel.Persistence.Repositories
                     {
                         while (reader.Read())
                         {
-                            int id = Convert.ToInt32(reader["organiserId"]);
+                            int id = Convert.ToInt32(reader["id"]);
                             if (!organisers.ContainsKey(id))
                             {
                                 Organiser organiser = new Organiser(id, (string)reader["name"]);
                                 organisers.Add(id, organiser);
                             }
-                            if (!reader.IsDBNull(reader.GetOrdinal("activityId")))
-                            {
-
-                                Activity activity = new Activity(Convert.ToInt32(reader["activityId"]), (DateTime)reader["fixture"], Convert.ToInt32(reader["nrOfPlaces"]), new Description(Convert.ToInt32(reader["duration"]), (string)reader["location"], (string)reader["explanation"], (string)reader["descriptionName"]), new PriceInfo(Convert.ToInt32(reader["adultPrice"]), (Convert.ToInt32(reader["childPrice"]), (Convert.ToInt32(reader["discount"])
-                            }
+                           
                         }
                     }
                 }
-            
+
+                return organisers.Values.ToList();
+
             }
 
-            catch
+            catch (Exception ex)
             {
-
+                throw new OrganiserRepositoryException("getcustomer", ex);
             }
 
 

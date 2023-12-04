@@ -32,6 +32,18 @@ namespace ConsoleAppDL
 
                 }
             }
+
+            OrganisorRepository organisorRepository = new OrganisorRepository(conn);
+
+            var organisers = organisorRepository.GetOrganisers();
+
+
+            foreach(var o in organisers)
+            {
+                Console.WriteLine(o.Name.ToString());
+                Console.WriteLine(o.Id.ToString());
+    
+            }
             
            
 

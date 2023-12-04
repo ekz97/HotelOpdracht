@@ -1,4 +1,6 @@
-﻿using Hotel.Presentation.Activities.Model;
+﻿using Hotel.Domain.Managers;
+using Hotel.Presentation.Activities.Model;
+using Hotel.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,16 +25,22 @@ namespace Hotel.Presentation.Activities
     public partial class MainWindow : Window
     {
         private ObservableCollection<ActivityUI> activityUIs = new ObservableCollection<ActivityUI>();
-        public ObservableCollection<string> organisers = new ObservableCollection<string>();
+        public ObservableCollection<OrganiserUI> organisers = new ObservableCollection<OrganiserUI>();
+
+        private OrganiserManager organiserManager;
         public MainWindow()
         {
             InitializeComponent();
+            organiserManager = new OrganiserManager(RepositoryFactory.OrganiserRepository);
+            OrganiserComboBox.ItemsSource = 
         }
 
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+      
 
 
         //dropdown list om de organisers te kiezen 
