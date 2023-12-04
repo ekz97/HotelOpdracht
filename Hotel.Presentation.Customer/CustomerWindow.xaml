@@ -45,7 +45,7 @@
         </ContextMenu>
     </DataGrid.ContextMenu>
     <DataGrid.Columns>
-        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name,UpdateSourceTrigger=PropertyChanged}" />
         <DataGridTemplateColumn Header="Birthday">
             <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
