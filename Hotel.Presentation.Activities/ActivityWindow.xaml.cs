@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Hotel.Domain.Managers;
+using Hotel.Domain.Model;
+using Hotel.Presentation.Activities.Model;
+using Hotel.Util;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +24,26 @@ namespace Hotel.Presentation.Activities
     /// </summary>
     public partial class ActivityWindow : Window
     {
-        public ActivityWindow()
+        private ActivityUI? _activityUI { get; set; }
+        //private ObservableCollection<Des> _members = new ObservableCollection<MemberUI>();
+        private ActivityManager activityManager;
+        public ActivityWindow(ActivityUI activityUI)
         {
             InitializeComponent();
+            this._activityUI = activityUI;
+            activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
+
+            if (_activityUI == null)
+            {
+
+                SubmitBtn.Content = "Submit activity";
+
+            }
+
+            else
+            {
+                SubmitBtn.Content = "Update activity";
+            }
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

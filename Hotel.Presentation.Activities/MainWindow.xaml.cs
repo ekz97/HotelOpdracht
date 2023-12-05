@@ -1,4 +1,5 @@
 ﻿using Hotel.Domain.Managers;
+using Hotel.Domain.Model;
 using Hotel.Presentation.Activities.Model;
 using Hotel.Util;
 using System;
@@ -72,10 +73,24 @@ namespace Hotel.Presentation.Activities
         private void MenuItemDeleteActivity_Click(object sender, RoutedEventArgs e)
         {
             ActivityWindow window = new ActivityWindow();
-            if (window.ShowDialog() == true)
-            {
 
+
+            if(ActivityDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Select the activity you want to delete!", "Delete", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
+            else
+            {
+                ActivityWindow window = new ActivityWindow((CustomerUI)CustomerDataGrid.SelectedItem);
+                window.DeleteCustomer();
+                RefreshCustomerData();
+            }
+
+            //if (window.ShowDialog() == true)
+            //{
+               
+            //}
         }
 
         private void MenuItemUpdateActivity_Click(object sender, RoutedEventArgs e)
@@ -86,5 +101,7 @@ namespace Hotel.Presentation.Activities
 
             }
         }
+
+     
     }
 }

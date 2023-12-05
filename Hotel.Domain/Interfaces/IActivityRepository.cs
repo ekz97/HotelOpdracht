@@ -10,5 +10,6 @@ namespace Hotel.Domain.Interfaces
     public interface IActivityRepository
     {
         IReadOnlyList<Activity> GetActivitiesByOrganiserId(int id);
+       
     }
 }

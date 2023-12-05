@@ -21,5 +21,7 @@ namespace Hotel.Domain.Managers
         {
             return _activityRepository.GetActivitiesByOrganiserId(organiserId);
         }
+
+      
     }
 }

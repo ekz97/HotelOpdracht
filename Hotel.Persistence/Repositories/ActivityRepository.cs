@@ -55,5 +55,13 @@ namespace Hotel.Persistence.Repositories
                 throw new ActivityRepositoryException("GetActivitiesByOrganiserId", ex);
             }
         }
+
+
+
+
+
     }
+
+
+      
 }

@@ -58,7 +58,7 @@
 
         <!-- Buttons -->
         <Button x:Name="CancelBtn" Grid.Row="9" Grid.Column="0" Content="Cancel" Margin="5" Grid.ColumnSpan="2" Click="CancelBtn_Click"/>
-        <Button Grid.Row="9" Grid.Column="2" Content="Submit" Margin="5" Grid.ColumnSpan="2"/>
+        <Button  x:Name="SubmitBtn" Grid.Row="9" Grid.Column="2" Content="Submit" Margin="5" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>
