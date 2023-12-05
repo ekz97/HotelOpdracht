@@ -18,5 +18,7 @@ namespace Hotel.Presentation.Activities.Model
         public int AdultPrice { get; set; }
         public int ChildPrice { get; set; }
         public int Discount { get; set; }
+
+        public string DisplayString { get { return $"Adult price: €{AdultPrice}\nChild price: €{ChildPrice}\nDiscount: {Discount}%"; } }
     }
 }

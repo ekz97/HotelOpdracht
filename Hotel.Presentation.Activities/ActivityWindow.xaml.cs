@@ -1,6 +1,6 @@
-﻿using Hotel.Domain.Exceptions;
-using Hotel.Domain.Managers;
+﻿using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
+using Hotel.Persistence.Repositories;
 using Hotel.Presentation.Activities.Model;
 using Hotel.Util;
 using System;
@@ -25,67 +25,66 @@ namespace Hotel.Presentation.Activities
     /// </summary>
     public partial class ActivityWindow : Window
     {
-        private ActivityUI? _activityUI { get; set; }
-        private ObservableCollection<DescriptionUI> descriptionUIs = new ObservableCollection<DescriptionUI>();
-        public  ObservableCollection<PriceInfoUI> priceInfoUIs = new ObservableCollection<PriceInfoUI>();
-        private ActivityManager activityManager;
-        public ActivityWindow(ActivityUI activityUI)
+        private List<DescriptionUI> descriptions = new List<DescriptionUI>(); 
+        private List<PriceInfoUI> priceInfos = new List<PriceInfoUI>();
+
+        private ActivityManager _activityManager;
+        public ActivityWindow()
         {
             InitializeComponent();
-            this._activityUI = activityUI;
-            activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
-
-            if (_activityUI == null)
+            _activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
+            foreach(var description in _activityManager.GetDescriptions())
             {
-
-                SubmitBtn.Content = "Submit activity";
-
+                descriptions.Add(new DescriptionUI(description.Duration, description.Explanation, description.Location, description.Name));
             }
-
-            else
+            foreach(var priceInfo in _activityManager.GetPriceInfos()) 
             {
-
-              
-                SubmitBtn.Content = "Update activity";
-
-                IdTextBox.Text = activityUI.Id.ToString();
-                FixtureTextBox.Text = activityUI.Fixture.ToString();
-                NrOfPlacesTextBox.Text = activityUI.NrOfPlaces.ToString();
-                DurationTextBox.Text = activityUI.Description.Duration.ToString();
-                LocationTextBox.Text = activityUI.Description.Location;
-                ExplanationTextBox.Text = activityUI.Description.Explanation;
-                NameTextBox.Text = activityUI.Description.Name;
-           
-
-
-
+                priceInfos.Add(new PriceInfoUI(priceInfo.AdultPrice, priceInfo.ChildPrice, priceInfo.Discount));
             }
+            PriceInfoComboBox.ItemsSource = priceInfos;
+            PriceInfoComboBox.DisplayMemberPath = "DisplayString";
+            DescriptionComboBox.ItemsSource = descriptions;
+            DescriptionComboBox.DisplayMemberPath = "Name";
+            
         }
-
-
-      
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-
-        private void FreezeInputsSelectedDescription()
+        private void DescriptionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DurationTextBox.IsEnabled = false;
-            LocationTextBox.IsEnabled = false;
-            ExplanationTextBox.IsEnabled = false;
-            NameTextBox.IsEnabled = false;
+            if(DescriptionComboBox.SelectedItem != null)
+            {
+                DescriptionUI selectedDescription = (DescriptionUI)DescriptionComboBox.SelectedItem;
 
+                DurationTextBox.Text = selectedDescription.Duration.ToString();
+                LocationTextBox.Text = selectedDescription.Location.ToString();
+                ExplanationTextBox.Text = selectedDescription.Explanation.ToString();
+                NameTextBox.Text = selectedDescription.Name.ToString();
+
+                DurationTextBox.IsEnabled = false;
+                LocationTextBox.IsEnabled = false;
+                ExplanationTextBox.IsEnabled = false;
+                NameTextBox.IsEnabled = false;
+            }
         }
 
-        private void FreezeInputsSelectedPriceInfo()
+        private void PriceInfoComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AdultPriceTextBox.IsEnabled = false;
-            ChildPriceTextBox.IsEnabled = false;
-            DiscountTextBox.IsEnabled = false;
-        }
+            if (PriceInfoComboBox.SelectedItem != null)
+            {
+                PriceInfoUI selectedPriceInfo = (PriceInfoUI)PriceInfoComboBox.SelectedItem;
 
+                AdultPriceTextBox.Text = selectedPriceInfo.AdultPrice.ToString();
+                ChildPriceTextBox.Text = selectedPriceInfo.ChildPrice.ToString();
+                DiscountTextBox.Text = selectedPriceInfo.Discount.ToString();
+
+                AdultPriceTextBox.IsEnabled = false;
+                ChildPriceTextBox.IsEnabled = false;
+                DiscountTextBox.IsEnabled = false;
+            }
+        }
     }
 }
