@@ -57,5 +57,19 @@ namespace Hotel.Domain.Model
             Explanation = explanation;
             Name = name;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Description description &&
+                   Duration == description.Duration &&
+                   Location == description.Location &&
+                   Explanation == description.Explanation &&
+                   Name == description.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Duration, Location, Explanation, Name);
+        }
     }
 }

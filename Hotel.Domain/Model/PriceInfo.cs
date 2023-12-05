@@ -57,6 +57,19 @@ namespace Hotel.Domain.Model
             Discount = discount;
            
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PriceInfo info &&
+                   AdultPrice == info.AdultPrice &&
+                   ChildPrice == info.ChildPrice &&
+                   Discount == info.Discount;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(AdultPrice, ChildPrice, Discount);
+        }
     }
 }
 

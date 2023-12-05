@@ -28,5 +28,9 @@ namespace Hotel.Domain.Managers
         {
             return _activityRepository.GetAllPriceInfos();
         }
+        public void AddActivity(Activity activity,int organiserId) 
+        {
+            _activityRepository.AddActivity(activity,organiserId);
+        }
     }
 }

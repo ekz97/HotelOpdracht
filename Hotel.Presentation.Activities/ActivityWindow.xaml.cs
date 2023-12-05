@@ -28,12 +28,14 @@ namespace Hotel.Presentation.Activities
     {
         private List<DescriptionUI> descriptions = new List<DescriptionUI>(); 
         private List<PriceInfoUI> priceInfos = new List<PriceInfoUI>();
+        private int _organiserId;
         private ActivityUI _activity;
         private ActivityManager _activityManager;
 
-        public ActivityWindow(ActivityUI activityUI)
+        public ActivityWindow(ActivityUI activityUI,int organiserId)
         {
             InitializeComponent();
+            _organiserId = organiserId;
             _activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
             _activity = activityUI;
             if (_activity == null)
@@ -119,7 +121,7 @@ namespace Hotel.Presentation.Activities
 
             if (_activity == null)
             {
-               
+                AddActivity();
             }
             else
             {
@@ -142,7 +144,8 @@ namespace Hotel.Presentation.Activities
 
         private void AddActivity()
         {
-
+            Activity activity = new Activity(0, Convert.ToDateTime(FixtureTextBox.SelectedDate), Convert.ToInt32(NrOfPlacesTextBox.Text), new Description(Convert.ToInt32(DurationTextBox.Text), LocationTextBox.Text, ExplanationTextBox.Text, NameTextBox.Text), new PriceInfo(Convert.ToInt32(AdultPriceTextBox.Text), Convert.ToInt32(ChildPriceTextBox.Text), Convert.ToInt32(DiscountTextBox.Text)));
+            _activityManager.AddActivity(activity, _organiserId);
         }
 
         public void DeleteActivity()

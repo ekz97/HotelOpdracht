@@ -28,6 +28,7 @@ namespace Hotel.Presentation.Activities
     {
         private ObservableCollection<ActivityUI> activityUIs = new ObservableCollection<ActivityUI>();
         public ObservableCollection<OrganiserUI> organiserUIs = new ObservableCollection<OrganiserUI>();
+        private int _organiserId;
         private OrganiserManager organiserManager;
         private ActivityManager activityManager;
         public MainWindow()
@@ -51,8 +52,8 @@ namespace Hotel.Presentation.Activities
             if(OrganiserComboBox.SelectedItem != null)
             {
                 OrganiserUI SelectedOrganiser = (OrganiserUI)OrganiserComboBox.SelectedItem;
-                int id = SelectedOrganiser.Id;
-                foreach(var a in activityManager.GetActivitiesByOrganiserId(id))
+                _organiserId = SelectedOrganiser.Id;
+                foreach(var a in activityManager.GetActivitiesByOrganiserId(_organiserId))
                 {
                     activityUIs.Add(new ActivityUI(a.Id, a.Fixture, a.NrOfPlaces, new DescriptionUI(a.Description.Duration, a.Description.Location, a.Description.Explanation, a.Description.Name),new PriceInfoUI(a.PriceInfo.AdultPrice, a.PriceInfo.ChildPrice,a.PriceInfo.Discount)));
                 }
@@ -62,7 +63,8 @@ namespace Hotel.Presentation.Activities
 
         private void MenuItemAddActivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityWindow window = new ActivityWindow(null);
+
+            ActivityWindow window = new ActivityWindow(null,_organiserId);
             if (window.ShowDialog() == true)
             {
                 
@@ -78,7 +80,7 @@ namespace Hotel.Presentation.Activities
             }
             else
             {
-                ActivityWindow window = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem);
+                ActivityWindow window = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem,_organiserId);
                 if (window.ShowDialog() == true)
                 {
 
@@ -96,7 +98,7 @@ namespace Hotel.Presentation.Activities
             }
             else
             {
-                ActivityWindow window = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem);
+                ActivityWindow window = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem, _organiserId);
                 if (window.ShowDialog() == true)
                 {
                    
