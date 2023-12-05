@@ -31,9 +31,9 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add" ></MenuItem>
-                    <MenuItem Header="Delete"></MenuItem>
-                    <MenuItem Header="Update"></MenuItem>
+                    <MenuItem Header="Add" Click="MenuItemAddActivity_Click"></MenuItem>
+                    <MenuItem Header="Delete" Click="MenuItemDeleteActivity_Click"></MenuItem>
+                    <MenuItem Header="Update" Click="MenuItemUpdateActivity_Click"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

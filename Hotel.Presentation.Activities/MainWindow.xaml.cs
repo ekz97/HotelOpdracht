@@ -59,5 +59,32 @@ namespace Hotel.Presentation.Activities
                 ActivityDataGrid.ItemsSource = activityUIs;
             }
         }
+
+        private void MenuItemAddActivity_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityWindow window = new ActivityWindow();
+            if (window.ShowDialog() == true)
+            {
+                
+            }
+        }
+
+        private void MenuItemDeleteActivity_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityWindow window = new ActivityWindow();
+            if (window.ShowDialog() == true)
+            {
+
+            }
+        }
+
+        private void MenuItemUpdateActivity_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityWindow window = new ActivityWindow();
+            if (window.ShowDialog() == true)
+            {
+
+            }
+        }
     }
 }

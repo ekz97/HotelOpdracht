@@ -1,0 +1,64 @@
+﻿<Window x:Class="Hotel.Presentation.Activities.ActivityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel.Presentation.Activities"
+        mc:Ignorable="d"
+        Title="ActivityWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Left Column -->
+        <Label Grid.Row="0"  Grid.Column="0" Content="Id" Margin="5"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Fixture" Margin="5"/>
+        <Label Grid.Row="1" Grid.Column="2" Content="No. of places" Margin="5"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Description" Margin="5"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="Duration" Margin="5"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="Location" Margin="5,5,5,0"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Explanation" Margin="5"/>
+        <Label Grid.Row="7" Grid.Column="0" Content="Name" Margin="5"/>
+
+        <TextBox Grid.Row="0" Grid.Column="1" Name="IdTextBox" Margin="5" VerticalAlignment="Center" IsEnabled="False" />
+        <TextBox Grid.Row="1" Grid.Column="1" Name="FixtureTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="1" Grid.Column="3" Name="NrOfPlacesTextBox" Margin="5" VerticalAlignment="Center" />
+        <ComboBox Name="DescriptionComboBox" Margin="5" Grid.Row="3" Grid.Column="1" />
+        <TextBox Grid.Row="4" Grid.Column="1" Name="DurationTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="5" Grid.Column="1" Name="LocationTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="6" Grid.Column="1" Name="ExplanationTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="7" Grid.Column="1" Name="NameTextBox" Margin="5" VerticalAlignment="Center" />
+
+        <!-- Right Column -->
+        <Label Grid.Row="3" Grid.Column="2" Content="PriceInfo" Margin="5"/>
+        <Label Grid.Row="4" Grid.Column="2" Content="Adult price" Margin="5"/>
+        <Label Grid.Row="5" Grid.Column="2" Content="Child price" Margin="5"/>
+        <Label Grid.Row="6" Grid.Column="2" Content="Discount" Margin="5"/>
+
+        <ComboBox Name="PriceInfoComboBox" Margin="5" Grid.Row="3" Grid.Column="3" />
+        <TextBox Grid.Row="4" Grid.Column="3" Name="AdultPriceTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="5" Grid.Column="3" Name="ChildPriceTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="6" Grid.Column="3" Name="DiscountTextBox" Margin="5" VerticalAlignment="Center" />
+
+        <!-- Buttons -->
+        <Button x:Name="CancelBtn" Grid.Row="9" Grid.Column="0" Content="Cancel" Margin="5" Grid.ColumnSpan="2" Click="CancelBtn_Click"/>
+        <Button Grid.Row="9" Grid.Column="2" Content="Submit" Margin="5" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

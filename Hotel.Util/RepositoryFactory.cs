@@ -7,8 +7,8 @@ namespace Hotel.Util
     public static class RepositoryFactory
     {
     
-        public static ICustomerRepository CustomerRepository { get { return new CustomerRepository(ConfigurationManager.ConnectionStrings["HotelDBLiam"].ConnectionString); } }
-        public static IOrganiserRepository OrganiserRepository { get { return new OrganisorRepository(ConfigurationManager.ConnectionStrings["HotelDBLiam"].ConnectionString); } }
-        public static IActivityRepository ActivityRepository { get { return new ActivityRepository(ConfigurationManager.ConnectionStrings["HotelDBLiam"].ConnectionString); } }
+        public static ICustomerRepository CustomerRepository { get { return new CustomerRepository(ConfigurationManager.ConnectionStrings["HotelDBAmir"].ConnectionString); } }
+        public static IOrganiserRepository OrganiserRepository { get { return new OrganisorRepository(ConfigurationManager.ConnectionStrings["HotelDBAmir"].ConnectionString); } }
+        public static IActivityRepository ActivityRepository { get { return new ActivityRepository(ConfigurationManager.ConnectionStrings["HotelDBAmir"].ConnectionString); } }
     }
 }
