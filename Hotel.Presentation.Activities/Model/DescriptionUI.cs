@@ -20,5 +20,6 @@ namespace Hotel.Presentation.Activities.Model
         public string Explanation { get; set; }
         public string Location { get; set; }
         public string Name { get; set; }
+
     }
 }

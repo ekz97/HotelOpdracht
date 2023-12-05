@@ -28,7 +28,6 @@ namespace Hotel.Presentation.Activities
     {
         private ObservableCollection<ActivityUI> activityUIs = new ObservableCollection<ActivityUI>();
         public ObservableCollection<OrganiserUI> organiserUIs = new ObservableCollection<OrganiserUI>();
-
         private OrganiserManager organiserManager;
         private ActivityManager activityManager;
         public MainWindow()
@@ -72,33 +71,36 @@ namespace Hotel.Presentation.Activities
 
         private void MenuItemDeleteActivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityWindow window = new ActivityWindow(null);
 
-
-            if(ActivityDataGrid.SelectedItem == null)
+            if (ActivityDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Select the activity you want to delete!", "Delete", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Select the activity you want to delete!", "update", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
             else
             {
-                ActivityWindow activityWindow = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem);
-                activityWindow.DeleteCustomer();
-                RefreshCustomerData();
+                ActivityWindow window = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem);
+                if (window.ShowDialog() == true)
+                {
+
+                }
             }
 
-            //if (window.ShowDialog() == true)
-            //{
-               
-            //}
+
         }
 
         private void MenuItemUpdateActivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityWindow window = new ActivityWindow();
-            if (window.ShowDialog() == true)
+            if (ActivityDataGrid.SelectedItem == null)
             {
-
+                MessageBox.Show("Select the activity you want to update!", "update", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                ActivityWindow window = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem);
+                if (window.ShowDialog() == true)
+                {
+                   
+                }
             }
         }
 

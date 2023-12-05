@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,13 +28,39 @@ namespace Hotel.Presentation.Activities
     {
         private List<DescriptionUI> descriptions = new List<DescriptionUI>(); 
         private List<PriceInfoUI> priceInfos = new List<PriceInfoUI>();
-
+        private ActivityUI _activity;
         private ActivityManager _activityManager;
-        public ActivityWindow()
+
+        public ActivityWindow(ActivityUI activityUI)
         {
             InitializeComponent();
             _activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
-            foreach(var description in _activityManager.GetDescriptions())
+            _activity = activityUI;
+            if (_activity == null)
+            {
+
+                SubmitBtn.Content = "Add";
+
+
+            }
+            else
+            {
+                SubmitBtn.Content = "Update";
+                IdTextBox.Text = _activity.Id.ToString();
+                FixtureTextBox.Text = _activity.Fixture.ToString();
+                NrOfPlacesTextBox.Text = _activity.NrOfPlaces.ToString();
+                DurationTextBox.Text = _activity.Description.Duration.ToString();
+                LocationTextBox.Text = _activity.Description.Location;
+                ExplanationTextBox.Text = _activity.Description.Explanation;
+                NameTextBox.Text = _activity.Description.Name;
+                AdultPriceTextBox.Text = _activity.PriceInfo.AdultPrice.ToString();
+                ChildPriceTextBox.Text = _activity.PriceInfo.ChildPrice.ToString();
+                DiscountTextBox.Text = _activity.PriceInfo.Discount.ToString();
+                
+
+
+            }
+            foreach (var description in _activityManager.GetDescriptions())
             {
                 descriptions.Add(new DescriptionUI(description.Duration, description.Explanation, description.Location, description.Name));
             }
@@ -86,5 +113,43 @@ namespace Hotel.Presentation.Activities
                 DiscountTextBox.IsEnabled = false;
             }
         }
+
+        private void SubmitBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (_activity == null)
+            {
+               
+            }
+            else
+            {
+               
+            }
+
+            DialogResult = true;
+            Close();
+        }
+
+
+        private void UpdateActivity()
+        {
+            Activity activity = new Activity(Convert.ToInt32(IdTextBox.Text), Convert.ToDateTime(FixtureTextBox.SelectedDate), Convert.ToInt32(NrOfPlacesTextBox.Text), new Description(Convert.ToInt32(DurationTextBox.Text), LocationTextBox.Text, ExplanationTextBox.Text, NameTextBox.Text), new PriceInfo(Convert.ToInt32(AdultPriceTextBox.Text), Convert.ToInt32(ChildPriceTextBox.Text), Convert.ToInt32(DiscountTextBox.Text)));
+
+
+           
+
+        }
+
+        private void AddActivity()
+        {
+
+        }
+
+        public void DeleteActivity()
+        {
+
+        }
     }
+
+
 }
