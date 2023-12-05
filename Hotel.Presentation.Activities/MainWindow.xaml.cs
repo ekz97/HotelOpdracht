@@ -63,7 +63,7 @@ namespace Hotel.Presentation.Activities
 
         private void MenuItemAddActivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityWindow window = new ActivityWindow();
+            ActivityWindow window = new ActivityWindow(null);
             if (window.ShowDialog() == true)
             {
                 
@@ -72,7 +72,7 @@ namespace Hotel.Presentation.Activities
 
         private void MenuItemDeleteActivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityWindow window = new ActivityWindow();
+            ActivityWindow window = new ActivityWindow(null);
 
 
             if(ActivityDataGrid.SelectedItem == null)

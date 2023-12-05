@@ -43,6 +43,17 @@ namespace Hotel.Presentation.Activities
             else
             {
                 SubmitBtn.Content = "Update activity";
+
+                IdTextBox.Text = activityUI.Id.ToString();
+                FixtureTextBox.Text = activityUI.Fixture.ToString();
+                NrOfPlacesTextBox.Text = activityUI.NrOfPlaces.ToString();
+                DurationTextBox.Text = activityUI.DurationDescription.ToString();
+                LocationTextBox.Text = "";
+                ExplanationTextBox.Text = "";
+                NameTextBox.Text = "";
+
+
+
             }
         }
 
