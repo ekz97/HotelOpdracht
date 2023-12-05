@@ -82,8 +82,8 @@ namespace Hotel.Presentation.Activities
 
             else
             {
-                ActivityWindow window = new ActivityWindow((CustomerUI)CustomerDataGrid.SelectedItem);
-                window.DeleteCustomer();
+                ActivityWindow activityWindow = new ActivityWindow((ActivityUI)ActivityDataGrid.SelectedItem);
+                activityWindow.DeleteCustomer();
                 RefreshCustomerData();
             }
 

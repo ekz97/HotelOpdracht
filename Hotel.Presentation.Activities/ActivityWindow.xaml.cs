@@ -1,4 +1,5 @@
-﻿using Hotel.Domain.Managers;
+﻿using Hotel.Domain.Exceptions;
+using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
 using Hotel.Presentation.Activities.Model;
 using Hotel.Util;
@@ -25,7 +26,8 @@ namespace Hotel.Presentation.Activities
     public partial class ActivityWindow : Window
     {
         private ActivityUI? _activityUI { get; set; }
-        //private ObservableCollection<Des> _members = new ObservableCollection<MemberUI>();
+        private ObservableCollection<DescriptionUI> descriptionUIs = new ObservableCollection<DescriptionUI>();
+        public  ObservableCollection<PriceInfoUI> priceInfoUIs = new ObservableCollection<PriceInfoUI>();
         private ActivityManager activityManager;
         public ActivityWindow(ActivityUI activityUI)
         {
@@ -42,19 +44,43 @@ namespace Hotel.Presentation.Activities
 
             else
             {
+
+              
                 SubmitBtn.Content = "Update activity";
 
                 IdTextBox.Text = activityUI.Id.ToString();
                 FixtureTextBox.Text = activityUI.Fixture.ToString();
                 NrOfPlacesTextBox.Text = activityUI.NrOfPlaces.ToString();
-                DurationTextBox.Text = activityUI.DurationDescription.ToString();
-                LocationTextBox.Text = "";
-                ExplanationTextBox.Text = "";
-                NameTextBox.Text = "";
+                DurationTextBox.Text = activityUI.Description.Duration.ToString();
+                LocationTextBox.Text = activityUI.Description.Location;
+                ExplanationTextBox.Text = activityUI.Description.Explanation;
+                NameTextBox.Text = activityUI.Description.Name;
+                DescriptionComboBox.ItemsSource = 
 
 
 
             }
+        }
+
+
+        private void FillComboBoxes()
+        {
+            foreach (var description in activityManager.GetDescriptions())
+            {
+                descriptionUIs.Add(new DescriptionUI(description.Duration, description.Explanation, description.Location, description.Name));
+            }
+            DescriptionComboBox.ItemsSource = descriptionUIs;
+            DescriptionComboBox.DisplayMemberPath = "Name";
+
+
+            foreach (var description in activityManager.GetDescriptions())
+            {
+                descriptionUIs.Add(new DescriptionUI(description.Duration, description.Explanation, description.Location, description.Name));
+            }
+            DescriptionComboBox.ItemsSource = descriptionUIs;
+            DescriptionComboBox.DisplayMemberPath = "Name";
+
+
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
