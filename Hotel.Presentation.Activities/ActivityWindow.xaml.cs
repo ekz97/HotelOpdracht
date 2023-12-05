@@ -55,7 +55,7 @@ namespace Hotel.Presentation.Activities
                 LocationTextBox.Text = activityUI.Description.Location;
                 ExplanationTextBox.Text = activityUI.Description.Explanation;
                 NameTextBox.Text = activityUI.Description.Name;
-                DescriptionComboBox.ItemsSource = 
+           
 
 
 
@@ -63,29 +63,29 @@ namespace Hotel.Presentation.Activities
         }
 
 
-        private void FillComboBoxes()
-        {
-            foreach (var description in activityManager.GetDescriptions())
-            {
-                descriptionUIs.Add(new DescriptionUI(description.Duration, description.Explanation, description.Location, description.Name));
-            }
-            DescriptionComboBox.ItemsSource = descriptionUIs;
-            DescriptionComboBox.DisplayMemberPath = "Name";
-
-
-            foreach (var description in activityManager.GetDescriptions())
-            {
-                descriptionUIs.Add(new DescriptionUI(description.Duration, description.Explanation, description.Location, description.Name));
-            }
-            DescriptionComboBox.ItemsSource = descriptionUIs;
-            DescriptionComboBox.DisplayMemberPath = "Name";
-
-
-        }
+      
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
+
+        private void FreezeInputsSelectedDescription()
+        {
+            DurationTextBox.IsEnabled = false;
+            LocationTextBox.IsEnabled = false;
+            ExplanationTextBox.IsEnabled = false;
+            NameTextBox.IsEnabled = false;
+
+        }
+
+        private void FreezeInputsSelectedPriceInfo()
+        {
+            AdultPriceTextBox.IsEnabled = false;
+            ChildPriceTextBox.IsEnabled = false;
+            DiscountTextBox.IsEnabled = false;
+        }
+
     }
 }
