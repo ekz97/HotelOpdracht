@@ -4,6 +4,7 @@ using Hotel.Persistence.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,62 @@ namespace Hotel.Persistence.Repositories
             catch (Exception ex)
             {
                 throw new ActivityRepositoryException("GetActivitiesByOrganiserId", ex);
+            }
+        }
+
+        public IReadOnlyList<Description> GetAllDescriptions()
+        {
+            try
+            {
+                List<Description> descriptions = new List<Description>();
+                string sql = "SELECT d.duration, d.explanation, d.location, d.name FROM dbo.Description d WHERE d.status = 1";
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Description description = new Description((int)(reader["duration"]), (string)reader["location"], (string)reader["explanation"], (string)reader["name"]);
+                            descriptions.Add(description);
+                        }
+                    }
+                }
+                return descriptions;
+            }
+            catch( Exception ex)
+            {
+                throw new ActivityRepositoryException("GetAllDescriptions",ex);
+            }
+        }
+
+        public IReadOnlyList<PriceInfo> GetAllPriceInfos()
+        {
+            try
+            {
+                List<PriceInfo> priceInfos = new List<PriceInfo>();
+                string sql = "SELECT p.adultPrice, p.childPrice, p.discount FROM dbo.PriceInfo p WHERE p.status = 1";
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            PriceInfo priceInfo = new PriceInfo((int)reader["adultPrice"], (int)reader["childPrice"], (int)reader["discount"]);
+                            priceInfos.Add(priceInfo);
+                        }
+                    }
+                }
+                return priceInfos;
+            }
+            catch (Exception ex)
+            {
+                throw new ActivityRepositoryException("GetAllPriceInfos", ex);
             }
         }
     }

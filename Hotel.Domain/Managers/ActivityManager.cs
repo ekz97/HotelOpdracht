@@ -16,10 +16,17 @@ namespace Hotel.Domain.Managers
         {
             _activityRepository = activityRepository;
         }
-
         public IReadOnlyList<Activity> GetActivitiesByOrganiserId(int organiserId)
         {
             return _activityRepository.GetActivitiesByOrganiserId(organiserId);
+        }
+        public IReadOnlyList<Description> GetDescriptions()
+        {
+            return _activityRepository.GetAllDescriptions();
+        }
+        public IReadOnlyList<PriceInfo> GetPriceInfos()
+        {
+            return _activityRepository.GetAllPriceInfos();
         }
     }
 }

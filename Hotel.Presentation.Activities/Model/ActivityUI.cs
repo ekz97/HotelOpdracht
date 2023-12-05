@@ -1,4 +1,5 @@
 ﻿using Hotel.Domain.Exceptions;
+using Hotel.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,18 +15,13 @@ namespace Hotel.Presentation.Activities.Model
             NrOfPlaces = nrOfPlaces;
         }
 
-        public ActivityUI(int? id, DateTime fixture, int nrOfPlaces, int durationDescription, string locationDescription, string explanationDescription, string nameDescription,int adultPriceInfo, int childPriceInfo, int discountPriceInfo)
+        public ActivityUI(int? id, DateTime fixture, int nrOfPlaces, DescriptionUI description, PriceInfoUI priceInfo)
         {
             Id = id;
             Fixture = fixture;
             NrOfPlaces = nrOfPlaces;
-            DurationDescription = durationDescription;
-            LocationDescription = locationDescription;
-            ExplanationDescription = explanationDescription;
-            NameDescription = nameDescription;
-            AdultPriceInfo = adultPriceInfo;
-            ChildPriceInfo = childPriceInfo;
-            DiscountPriceInfo = discountPriceInfo;
+            Description = description;
+            PriceInfo = priceInfo;
         }
 
         private int? _id;
@@ -67,55 +63,11 @@ namespace Hotel.Presentation.Activities.Model
             }
         }
 
-        private int _durationDescription;
-        public int DurationDescription
-        {
-            get => _durationDescription;
-            set { _durationDescription = value;}
-        }
+        public DescriptionUI Description { get; set; }
 
-        private string _locationDescription;
-        public string LocationDescription
-        {
-            get => _locationDescription;
-            set { _locationDescription = value; }
-        }
+        public PriceInfoUI PriceInfo { get; set; }
 
-        private string _explanationDescription;
-        public string ExplanationDescription
-        {
-            get => _explanationDescription;
-            set { _explanationDescription = value;  }
-        }
-
-        private string _nameDescription;
-        public string NameDescription
-        {
-            get => _nameDescription;
-            set { _nameDescription = value;}
-        }
-
-        private int _adultPriceInfo;
-        public int AdultPriceInfo
-        {
-            get => _adultPriceInfo;
-            set { _adultPriceInfo = value; }
-        }
-
-        private int _childPriceInfo;
-        public int ChildPriceInfo
-        {
-            get => _childPriceInfo;
-            set { _childPriceInfo = value;  }
-        }
-
-        private int _discountPriceInfo;
-        public int DiscountPriceInfo
-        {
-            get => _discountPriceInfo;
-            set { _discountPriceInfo = value;}
-        }
-
+      
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName = null)

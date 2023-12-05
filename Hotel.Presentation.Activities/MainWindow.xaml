@@ -19,15 +19,15 @@
         <Button Grid.Row="0" Grid.Column="1" Name="SelectButton" Margin="5" Content="Select" Click="SelectButton_Click"/>
         <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="ActivityDataGrid" IsReadOnly="true" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding NameDescription}"/>
-                <DataGridTextColumn Header="Explanation" Binding="{Binding ExplanationDescription}"/>
-                <DataGridTextColumn Header="NumberOfPlace" Binding="{Binding NrOfPlaces}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Description.Name}"/>
+                <DataGridTextColumn Header="Explanation" Binding="{Binding Description.Explanation}"/>
+                <DataGridTextColumn Header="No. of place" Binding="{Binding NrOfPlaces}"/>
                 <DataGridTextColumn Header="Fixture" Binding="{Binding Fixture}"/>
-                <DataGridTextColumn Header="Duration" Binding="{Binding DurationDescription}"/>
-                <DataGridTextColumn Header="Location" Binding="{Binding LocationDescription}"/>
-                <DataGridTextColumn Header="AdultPrice" Binding="{Binding AdultPriceInfo}"/>
-                <DataGridTextColumn Header="ChildPrice" Binding="{Binding ChildPriceInfo}"/>
-                <DataGridTextColumn Header="Discount" Binding="{Binding DiscountPriceInfo}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Description.Duration}"/>
+                <DataGridTextColumn Header="Location" Binding="{Binding Description.Location}"/>
+                <DataGridTextColumn Header="Adult price" Binding="{Binding PriceInfo.AdultPrice}"/>
+                <DataGridTextColumn Header="Child price" Binding="{Binding PriceInfo.ChildPrice}"/>
+                <DataGridTextColumn Header="Discount" Binding="{Binding PriceInfo.Discount}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

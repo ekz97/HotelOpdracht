@@ -54,7 +54,7 @@ namespace Hotel.Presentation.Activities
                 int id = SelectedOrganiser.Id;
                 foreach(var a in activityManager.GetActivitiesByOrganiserId(id))
                 {
-                    activityUIs.Add(new ActivityUI(a.Id, a.Fixture, a.NrOfPlaces, a.Description.Duration, a.Description.Location, a.Description.Explanation, a.Description.Name, a.PriceInfo.AdultPrice, a.PriceInfo.ChildPrice,a.PriceInfo.Discount));
+                    activityUIs.Add(new ActivityUI(a.Id, a.Fixture, a.NrOfPlaces, new DescriptionUI(a.Description.Duration, a.Description.Location, a.Description.Explanation, a.Description.Name),new PriceInfoUI(a.PriceInfo.AdultPrice, a.PriceInfo.ChildPrice,a.PriceInfo.Discount)));
                 }
                 ActivityDataGrid.ItemsSource = activityUIs;
             }
