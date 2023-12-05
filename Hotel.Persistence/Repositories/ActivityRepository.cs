@@ -25,12 +25,12 @@ namespace Hotel.Persistence.Repositories
             SqlConnection connection = new SqlConnection(connectionString);
             return connection;
         }
-        public IReadOnlyList<Activity> GetActivitiesByOrganiserId(int id)
+        public IReadOnlyList<Activity> GetActivitiesByOrganiserId(int organiserId)
         {
             try
             {
                 Dictionary<int, Activity> activities = new Dictionary<int, Activity>();
-                string sql = $"SELECT a.id,a.fixture,a.nrOfPlaces,d.duration,d.location,d.explanation,d.name,p.adultPrice,p.childPrice,p.discount FROM dbo.Activity a JOIN dbo.Description d ON a.descriptionId = d.id JOIN dbo.PriceInfo p ON a.priceInfoId = p.id WHERE a.organiserId = {id} AND a.status = 1";
+                string sql = $"SELECT a.id,a.fixture,a.nrOfPlaces,d.duration,d.location,d.explanation,d.name,p.adultPrice,p.childPrice,p.discount FROM dbo.Activity a JOIN dbo.Description d ON a.descriptionId = d.id JOIN dbo.PriceInfo p ON a.priceInfoId = p.id WHERE a.organiserId = {organiserId} AND a.status = 1";
                 using (SqlConnection conn = getConnection())
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
@@ -112,8 +112,74 @@ namespace Hotel.Persistence.Repositories
                 throw new ActivityRepositoryException("GetAllPriceInfos", ex);
             }
         }
-    }
+        public void AddActivity(Activity activity)
+        {
 
+        }
+        public void UpdateActivity(Activity activity)
+        {
 
-      
+        }
+        public void AddDescription(Description description)
+        {
+            try
+            {
+                string insertDescriptionSql = "INSERT INTO dbo.Description(duration,location,explanation,name,status) VALUES(@duration,@location,@explanation,@name,@status)";
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    try
+                    {
+                        cmd.CommandText = insertDescriptionSql;
+
+                        cmd.Parameters.AddWithValue("@duration", description.Duration);
+                        cmd.Parameters.AddWithValue("@location", description.Location);
+                        cmd.Parameters.AddWithValue("@explanation", description.Explanation);
+                        cmd.Parameters.AddWithValue("@name",description.Name);
+                        cmd.Parameters.AddWithValue("@status", 1);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                 }
+            }
+            catch(Exception ex)
+            {
+                throw new ActivityRepositoryException("AddDescription", ex);
+            }
+        }
+        public void AddPriceInfo(PriceInfo priceinfo)
+        {
+            try
+            {
+                string insertDescriptionSql = "INSERT INTO dbo.PriceInfo(adultPrice,childPrice,discount,status) VALUES(@adultPrice,@childPrice,@discount,@status)";
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    try
+                    {
+                        cmd.CommandText = insertDescriptionSql;
+
+                        cmd.Parameters.AddWithValue("@adultPrice",priceinfo.AdultPrice);
+                        cmd.Parameters.AddWithValue("@childPrice",priceinfo.ChildPrice);
+                        cmd.Parameters.AddWithValue("@discount",priceinfo.Discount);
+                        cmd.Parameters.AddWithValue("@status", 1);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ActivityRepositoryException("AddPriceInfo", ex);
+            }
+        }
+    }  
 }

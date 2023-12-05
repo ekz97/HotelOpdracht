@@ -52,6 +52,9 @@ namespace ConsoleAppDL
             {
                 Console.WriteLine(activity.NrOfPlaces + " | " + activity.Description.Explanation + " | " + activity.PriceInfo.AdultPrice);
             }
+
+            PriceInfo pp = new PriceInfo(50, 30, 0);
+            activityRepository.AddPriceInfo(pp);
         }
 
     }
