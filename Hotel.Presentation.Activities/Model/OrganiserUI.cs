@@ -19,29 +19,16 @@ namespace Hotel.Presentation.Activities.Model
                 _name = value;
             }
         }
-        private List<ActivityUI> _activities;
-        public List<ActivityUI> Activities
-        {
-            get { return _activities; }
-            set
-            {
-                _activities = value;
-               
-            }
-        }
-        public OrganiserUI(int id , string name,List<ActivityUI> activities)
+        public OrganiserUI(int id , string name)
         {
             Id = id;
             Name = name;
-            Activities = activities;
         }
 
-
-      
-
-
-
-
-
+        public override string? ToString()
+        {
+            return _name;
+        }
     }
+
 }

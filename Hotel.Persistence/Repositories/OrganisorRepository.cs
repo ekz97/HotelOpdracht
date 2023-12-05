@@ -27,6 +27,42 @@ namespace Hotel.Persistence.Repositories
             SqlConnection connection = new SqlConnection(connectionString);
             return connection;
         }
+        public IReadOnlyList<Organiser> GetOrganisers()
+        {
+            try
+            {
+                Dictionary<int, Organiser> organisers = new Dictionary<int, Organiser>();
+                string sql = "SELECT o.id, o.name FROM dbo.Organiser o Where o.status = 1";
+
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = Convert.ToInt32(reader["id"]);
+                            if (!organisers.ContainsKey(id))
+                            {
+                                Organiser organiser = new Organiser(id, (string)reader["name"]);
+                                organisers.Add(id, organiser);
+                            }
+                           
+                        }
+                    }
+                }
+
+                return organisers.Values.ToList();
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new OrganiserRepositoryException("getcustomer", ex);
+            }
+        }
 
         //public IReadOnlyList<Organiser> GetOrganisers()
         //{
@@ -72,47 +108,6 @@ namespace Hotel.Persistence.Repositories
 
 
         //}
-
-
-        public IReadOnlyList<Organiser> GetOrganisers()
-        {
-            try
-            {
-                Dictionary<int, Organiser> organisers = new Dictionary<int, Organiser>();
-                string sql = "SELECT o.id, o.name FROM dbo.Organiser o Where o.status = 1";
-
-                using (SqlConnection conn = getConnection())
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    conn.Open();
-                    cmd.CommandText = sql;
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = Convert.ToInt32(reader["id"]);
-                            if (!organisers.ContainsKey(id))
-                            {
-                                Organiser organiser = new Organiser(id, (string)reader["name"]);
-                                organisers.Add(id, organiser);
-                            }
-
-                        }
-                    }
-                }
-
-                return organisers.Values.ToList();
-
-            }
-
-            catch (Exception ex)
-            {
-                throw new OrganiserRepositoryException("getcustomer", ex);
-            }
-
-
-        }
-
 
     }
 }

@@ -9,7 +9,7 @@ namespace Hotel.Domain.Model
 {
     public class Organiser
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public ContactInfo Contact { get; set; }
         private string _name;
         public List<Activity> _activities { get; set; }
@@ -43,7 +43,7 @@ namespace Hotel.Domain.Model
         }
 
 
-        public Organiser(int? id, string name) 
+        public Organiser(int id, string name) 
         {
             Id = id;
             _name = name;
@@ -51,7 +51,7 @@ namespace Hotel.Domain.Model
         }
 
 
-        public Organiser(int? id, string name, ContactInfo contactInfo)
+        public Organiser(int id, string name, ContactInfo contactInfo)
         {
             Id = id;
             _name = name;
