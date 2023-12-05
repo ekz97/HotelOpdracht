@@ -32,7 +32,7 @@ namespace Hotel.Presentation.Activities
         {
             InitializeComponent();
             organiserManager = new OrganiserManager(RepositoryFactory.OrganiserRepository);
-            OrganiserComboBox.ItemsSource = 
+            //OrganiserComboBox.ItemsSource = 
         }
 
         private void SelectButton_Click(object sender, RoutedEventArgs e)
@@ -40,11 +40,7 @@ namespace Hotel.Presentation.Activities
 
         }
 
-      
-
-
-        //dropdown list om de organisers te kiezen 
-        // volgens de gekozen organiser krijg je de activities van deze organiser te zien 
+     
 
 
 

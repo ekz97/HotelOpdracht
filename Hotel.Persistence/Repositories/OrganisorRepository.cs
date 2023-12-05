@@ -96,7 +96,7 @@ namespace Hotel.Persistence.Repositories
                                 Organiser organiser = new Organiser(id, (string)reader["name"]);
                                 organisers.Add(id, organiser);
                             }
-                           
+
                         }
                     }
                 }
@@ -112,6 +112,7 @@ namespace Hotel.Persistence.Repositories
 
 
         }
+
 
     }
 }
