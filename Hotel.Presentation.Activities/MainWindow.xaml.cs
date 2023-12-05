@@ -4,6 +4,7 @@ using Hotel.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,30 +26,38 @@ namespace Hotel.Presentation.Activities
     public partial class MainWindow : Window
     {
         private ObservableCollection<ActivityUI> activityUIs = new ObservableCollection<ActivityUI>();
-        public ObservableCollection<OrganiserUI> organisers = new ObservableCollection<OrganiserUI>();
+        public ObservableCollection<OrganiserUI> organiserUIs = new ObservableCollection<OrganiserUI>();
 
         private OrganiserManager organiserManager;
+        private ActivityManager activityManager;
         public MainWindow()
         {
             InitializeComponent();
             organiserManager = new OrganiserManager(RepositoryFactory.OrganiserRepository);
-            OrganiserComboBox.ItemsSource = 
+            activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
+
+            foreach (var organiser in organiserManager.GetOrganisers())
+            {
+                organiserUIs.Add(new OrganiserUI(organiser.Id, organiser.Name));
+            }
+            OrganiserComboBox.ItemsSource = organiserUIs;
+            OrganiserComboBox.DisplayMemberPath = "Name";
+
         }
 
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
-
+            activityUIs.Clear();
+            if(OrganiserComboBox.SelectedItem != null)
+            {
+                OrganiserUI SelectedOrganiser = (OrganiserUI)OrganiserComboBox.SelectedItem;
+                int id = SelectedOrganiser.Id;
+                foreach(var a in activityManager.GetActivitiesByOrganiserId(id))
+                {
+                    activityUIs.Add(new ActivityUI(a.Id, a.Fixture, a.NrOfPlaces, a.Description.Duration, a.Description.Location, a.Description.Explanation, a.Description.Name, a.PriceInfo.AdultPrice, a.PriceInfo.ChildPrice,a.PriceInfo.Discount));
+                }
+                ActivityDataGrid.ItemsSource = activityUIs;
+            }
         }
-
-      
-
-
-        //dropdown list om de organisers te kiezen 
-        // volgens de gekozen organiser krijg je de activities van deze organiser te zien 
-
-
-
-
-
     }
 }

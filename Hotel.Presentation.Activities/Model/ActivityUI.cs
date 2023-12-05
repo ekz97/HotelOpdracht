@@ -14,7 +14,7 @@ namespace Hotel.Presentation.Activities.Model
             NrOfPlaces = nrOfPlaces;
         }
 
-        public ActivityUI(int? id, DateTime fixture, int nrOfPlaces, int durationDescription, string locationDescription, string explanationDescription, string nameDescription, int childPriceInfo, int discountPriceInfo, int adultAgePriceInfo)
+        public ActivityUI(int? id, DateTime fixture, int nrOfPlaces, int durationDescription, string locationDescription, string explanationDescription, string nameDescription,int adultPriceInfo, int childPriceInfo, int discountPriceInfo)
         {
             Id = id;
             Fixture = fixture;
@@ -23,9 +23,9 @@ namespace Hotel.Presentation.Activities.Model
             LocationDescription = locationDescription;
             ExplanationDescription = explanationDescription;
             NameDescription = nameDescription;
+            AdultPriceInfo = adultPriceInfo;
             ChildPriceInfo = childPriceInfo;
             DiscountPriceInfo = discountPriceInfo;
-            AdultAgePriceInfo = adultAgePriceInfo;
         }
 
         private int? _id;
@@ -95,6 +95,13 @@ namespace Hotel.Presentation.Activities.Model
             set { _nameDescription = value;}
         }
 
+        private int _adultPriceInfo;
+        public int AdultPriceInfo
+        {
+            get => _adultPriceInfo;
+            set { _adultPriceInfo = value; }
+        }
+
         private int _childPriceInfo;
         public int ChildPriceInfo
         {
@@ -107,13 +114,6 @@ namespace Hotel.Presentation.Activities.Model
         {
             get => _discountPriceInfo;
             set { _discountPriceInfo = value;}
-        }
-
-        private int _adultAgePriceInfo;
-        public int AdultAgePriceInfo
-        {
-            get => _adultAgePriceInfo;
-            set { _adultAgePriceInfo = value; }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

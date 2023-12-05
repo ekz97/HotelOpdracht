@@ -8,7 +8,7 @@ namespace ConsoleAppDL
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-            string conn = "Data Source=localhost;Initial Catalog=HotelDonderdag;Integrated Security=True;TrustServerCertificate=true";
+            string conn = "Data Source=MSI\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
             CustomerRepository repo = new CustomerRepository(conn);
             ////var x = repo.GetCustomers("ge");
             //Customer c = new Customer("Bart", new ContactInfo("bart@yahoo", "013456", new Address("Gent", "Kerkstraat", "9000", "185")));
@@ -44,10 +44,15 @@ namespace ConsoleAppDL
                 Console.WriteLine(o.Id.ToString());
     
             }
-            
-           
 
+            ActivityRepository activityRepository = new ActivityRepository(conn);
 
+            var activities = activityRepository.GetActivitiesByOrganiserId(9);
+            foreach(var activity in activities)
+            {
+                Console.WriteLine(activity.NrOfPlaces + " | " + activity.Description.Explanation + " | " + activity.PriceInfo.AdultPrice);
+            }
         }
+
     }
 }

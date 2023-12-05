@@ -17,7 +17,18 @@
         </Grid.RowDefinitions>
         <ComboBox Name="OrganiserComboBox" Margin="5" Grid.Row="0" Grid.Column="0" />
         <Button Grid.Row="0" Grid.Column="1" Name="SelectButton" Margin="5" Content="Select" Click="SelectButton_Click"/>
-        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="CustomerDataGrid" IsReadOnly="true">
+        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="ActivityDataGrid" IsReadOnly="true" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding NameDescription}"/>
+                <DataGridTextColumn Header="Explanation" Binding="{Binding ExplanationDescription}"/>
+                <DataGridTextColumn Header="NumberOfPlace" Binding="{Binding NrOfPlaces}"/>
+                <DataGridTextColumn Header="Fixture" Binding="{Binding Fixture}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding DurationDescription}"/>
+                <DataGridTextColumn Header="Location" Binding="{Binding LocationDescription}"/>
+                <DataGridTextColumn Header="AdultPrice" Binding="{Binding AdultPriceInfo}"/>
+                <DataGridTextColumn Header="ChildPrice" Binding="{Binding ChildPriceInfo}"/>
+                <DataGridTextColumn Header="Discount" Binding="{Binding DiscountPriceInfo}"/>
+            </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add" ></MenuItem>

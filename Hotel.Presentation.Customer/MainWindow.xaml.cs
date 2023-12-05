@@ -42,7 +42,6 @@ namespace Hotel.Presentation.Customer
 
         private void RefreshCustomerData(string filter = null)
         {
-            //commentaar
             customerUIs.Clear();
             foreach (var customer in customerManager.GetCustomers(filter))
             {
