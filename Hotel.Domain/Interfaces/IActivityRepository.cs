@@ -15,6 +15,7 @@ namespace Hotel.Domain.Interfaces
 
         public void AddActivity(Activity activity, int organiserId);
         public void UpdateActivity(Activity activity);
+        public void DeleteActivity(int activityid);
 
     }
 }

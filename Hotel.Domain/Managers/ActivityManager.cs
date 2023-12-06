@@ -32,5 +32,13 @@ namespace Hotel.Domain.Managers
         {
             _activityRepository.AddActivity(activity,organiserId);
         }
+        public void UpdateActivity(Activity activity)
+        {
+            _activityRepository.UpdateActivity(activity);
+        }
+        public void DeleteActivity(int activityId)
+        {
+            _activityRepository.DeleteActivity(activityId);
+        }
     }
 }

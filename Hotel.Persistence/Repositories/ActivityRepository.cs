@@ -137,14 +137,21 @@ namespace Hotel.Persistence.Repositories
                 {
                     conn.Open();
 
-                    cmd.Parameters.AddWithValue("fixture", activity.Fixture);
-                    cmd.Parameters.AddWithValue("nrOfPlaces", activity.NrOfPlaces);
-                    cmd.Parameters.AddWithValue("organiserId", organiserId);
-                    cmd.Parameters.AddWithValue("descriptionId", descriptionId);
-                    cmd.Parameters.AddWithValue("priceInfoId", priceinfoId);
-                    cmd.Parameters.AddWithValue("status", 1);
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("fixture", activity.Fixture);
+                        cmd.Parameters.AddWithValue("nrOfPlaces", activity.NrOfPlaces);
+                        cmd.Parameters.AddWithValue("organiserId", organiserId);
+                        cmd.Parameters.AddWithValue("descriptionId", descriptionId);
+                        cmd.Parameters.AddWithValue("priceInfoId", priceinfoId);
+                        cmd.Parameters.AddWithValue("status", 1);
 
-                    cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ActivityRepositoryException("Failed to add Activity", ex);
+                    }
                 }
             }
             catch (Exception ex)
@@ -154,8 +161,75 @@ namespace Hotel.Persistence.Repositories
         }
         public void UpdateActivity(Activity activity)
         {
+            try
+            {
+                var descriptions = GetAllDescriptions();
+                var priceInfos = GetAllPriceInfos();
 
+                if (!descriptions.Contains(activity.Description))
+                {
+                    AddDescription(activity.Description);
+                }
+                if (!priceInfos.Contains(activity.PriceInfo))
+                {
+                    AddPriceInfo(activity.PriceInfo);
+                }
+                int descriptionId = GetDescriptionId(activity.Description);
+                int priceinfoId = GetPriceInfoId(activity.PriceInfo);
+
+                string updateActivitySql = "UPDATE dbo.Activity set fixture = @fixture, nrofPlaces = @nrOfPlaces, descriptionId = @descriptionId, priceInfoId = @priceInfoId WHERE id = @activityId";
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = new SqlCommand(updateActivitySql, conn))
+                {
+                    conn.Open();
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("activityId", activity.Id);
+                        cmd.Parameters.AddWithValue("fixture", activity.Fixture);
+                        cmd.Parameters.AddWithValue("nrOfPlaces", activity.NrOfPlaces);
+                        cmd.Parameters.AddWithValue("descriptionId", descriptionId);
+                        cmd.Parameters.AddWithValue("priceInfoId", priceinfoId);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ActivityRepositoryException("Failed to update Activity", ex);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new ActivityRepositoryException("UpdateActivity", ex);
+            }
         }
+        public void DeleteActivity(int activityId) 
+        {
+            try
+            {
+                string sql = "UPDATE dbo.Activity SET status = 0 WHERE id = @activityId";
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    try
+                    {
+                        cmd.CommandText = sql;
+                        cmd.Parameters.AddWithValue("@activityId", activityId);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch(Exception ex)
+                    {
+                        throw new ActivityRepositoryException("Failed to delete Activity", ex);
+                    }
+                }
+                
+            }
+            catch (ActivityRepositoryException ex)
+            {
+                throw new ActivityRepositoryException("DeleteActivity", ex);
+            }
+        }
+
         private void AddDescription(Description description)
         {
             try
@@ -178,7 +252,7 @@ namespace Hotel.Persistence.Repositories
                     }
                     catch (Exception ex)
                     {
-                        throw;
+                        throw new ActivityRepositoryException("failed to add Description", ex);
                     }
                  }
             }
@@ -208,7 +282,7 @@ namespace Hotel.Persistence.Repositories
                     }
                     catch (Exception ex)
                     {
-                        throw;
+                        throw new ActivityRepositoryException("failed to add priceInfo", ex);
                     }
                 }
             }
