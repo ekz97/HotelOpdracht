@@ -26,7 +26,6 @@ namespace Hotel.Presentation.Activities
     /// </summary>
     public partial class MainWindow : Window
     {
-        // test commit
         private ObservableCollection<ActivityUI> activityUIs = new ObservableCollection<ActivityUI>();
         private ObservableCollection<OrganiserUI> organiserUIs = new ObservableCollection<OrganiserUI>();
         private int _organiserId = -1;
