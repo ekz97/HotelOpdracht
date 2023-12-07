@@ -10,9 +10,9 @@ namespace Hotel.Presentation.Customer.Model
     public class MemberUI
     {
         public string Name { get; set; }
-        public DateTime? Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
-        public MemberUI(string name, DateTime? birthday)
+        public MemberUI(string name, DateTime birthday)
         {
             Name = name;
             Birthday = birthday;
