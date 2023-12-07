@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <DataGrid Name="MemberDataGrid" Grid.Column="0" Grid.Row="0" Margin="5"/>
         <DataGrid Name="ActivityDataGrid" Grid.Column="1" Grid.Row="0" Margin="5"/>
-        <Button Name="AddMemberBtn" Content="Add member" Grid.Column="0" Grid.Row="1" Margin="5"/>
-        <Button Name="SubmitRegistrationBtn" Content="Sumbit" Grid.Column="1" Grid.Row="1" Margin="5"/>
+        <Button Name="AddMemberBtn" Content="Add member" Grid.Column="0" Grid.Row="1" Margin="5" Click="AddMemberBtn_Click"/>
+        <Button Name="SubmitRegistrationBtn" Content="Sumbit" Grid.Column="1" Grid.Row="1" Margin="5" Click="SubmitRegistrationBtn_Click"/>
     </Grid>
 </Window>
