@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Model
 {
-    public class Registration
+    public class Registrationn
     {
+        public Registrationn(List<Member> members, Activity activity)
+        {
+            Members = members;
+            Activity = activity;
+        }
+
         private int _id;
         public int Id
         {
@@ -31,7 +37,7 @@ namespace Hotel.Domain.Model
             foreach (var member in Members)
             {
                 TimeSpan age = DateTime.Now - member.Birthday;
-                if(Convert.ToInt32(age/365.25) >= Activity.PriceInfo.AdultAge)
+                if(Convert.ToInt32(age.TotalDays/365.25) >= Activity.PriceInfo.AdultAge)
                 {
                     totalPrice += Activity.PriceInfo.AdultPrice;
                 }
@@ -43,6 +49,5 @@ namespace Hotel.Domain.Model
             double discountMultiplier = 1.0 - (Activity.PriceInfo.Discount / 100.0);
             return totalPrice * discountMultiplier;
         }
-
     }
 }
