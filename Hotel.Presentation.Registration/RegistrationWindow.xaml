@@ -5,18 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel.Presentation.Registration"
         mc:Ignorable="d"
-        Title="RegistrationWindow" Height="450" Width="800">
+        Title="RegistrationWindow" Height="450" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <DataGrid Name="MemberDataGrid" Grid.Column="0" Grid.Row="0" Margin="5" IsReadOnly="True"/>
-        <DataGrid Name="ActivityDataGrid" Grid.Column="1" Grid.Row="0" Margin="5" SelectionChanged="ActivityDataGrid_SelectionChanged" IsReadOnly="True"/>
+        <DataGrid Name="ActivityDataGrid" Grid.Column="1" Grid.Row="0" Margin="5" SelectionChanged="ActivityDataGrid_SelectionChanged" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Description.Name}"/>
+                <DataGridTextColumn Header="Explanation" Binding="{Binding Description.Explanation}"/>
+                <DataGridTextColumn Header="No. of place" Binding="{Binding NrOfPlaces}"/>
+                <DataGridTextColumn Header="Fixture" Binding="{Binding Fixture}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Description.Duration}"/>
+                <DataGridTextColumn Header="Location" Binding="{Binding Description.Location}"/>
+                <DataGridTextColumn Header="Adult price" Binding="{Binding PriceInfo.AdultPrice}"/>
+                <DataGridTextColumn Header="Child price" Binding="{Binding PriceInfo.ChildPrice}"/>
+                <DataGridTextColumn Header="Discount" Binding="{Binding PriceInfo.Discount}"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Name="AddMemberBtn" Content="Add member" Grid.Column="0" Grid.Row="1" Margin="5" Click="AddMemberBtn_Click"/>
         <Button Name="SubmitRegistrationBtn" Content="Sumbit" Grid.Column="1" Grid.Row="1" Margin="5" Click="SubmitRegistrationBtn_Click"/>
     </Grid>
