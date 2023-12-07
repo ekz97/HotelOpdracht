@@ -35,7 +35,7 @@ namespace Hotel.Presentation.Registration
                 List<MemberUI> memberUIList = customer.GetMembers()
                     .Select(member => new MemberUI(member.Name, member.Birthday))
                     .ToList();
-                _customers.Add(new CustomerUI(customer.Name, customer.Contact.Email, memberUIList));
+                _customers.Add(new CustomerUI(customer.Id,customer.Name, customer.Contact.Email, memberUIList));
             }
             CustomerComboBox.ItemsSource = _customers;
             CustomerComboBox.DisplayMemberPath = "DisplayString";

@@ -30,12 +30,16 @@ namespace Hotel.Presentation.Registration
         private bool isFirstSelection = true;
 
 
+
         private ActivityManager _activityManager;
+        private RegistrationManager _registrationManager;
 
         public RegistrationWindow(CustomerUI customer)
         {
             InitializeComponent();
             _activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
+            _registrationManager = new RegistrationManager(RepositoryFactory.RegistrationRepository);
+
             _customer = customer;
             MemberDataGrid.ItemsSource = _customer.Members;
             foreach (var a in _activityManager.GetAllActivities())
@@ -93,6 +97,7 @@ namespace Hotel.Presentation.Registration
                     members.Add(new Member(member.Name, member.Birthday));
                 }
                 Registrationn registration = new Registrationn(members, new Activity(_registrationUI.Activity.Id, Convert.ToDateTime(_registrationUI.Activity.Fixture), _registrationUI.Activity.NrOfPlaces, new Description(_registrationUI.Activity.Description.Duration, _registrationUI.Activity.Description.Location, _registrationUI.Activity.Description.Explanation, _registrationUI.Activity.Description.Name),new PriceInfo(_registrationUI.Activity.PriceInfo.AdultPrice,_registrationUI.Activity.PriceInfo.ChildPrice,_registrationUI.Activity.PriceInfo.Discount)));
+                _registrationManager.AddRegistration(registration, _customer.Id);
                 MessageBox.Show(registration.CalcCost().ToString("€ 0.00"));
             }
         }

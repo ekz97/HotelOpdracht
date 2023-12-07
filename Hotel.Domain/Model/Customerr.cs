@@ -9,7 +9,7 @@ namespace Hotel.Domain.Model
 {
     public class Customerr
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public ContactInfo Contact { get; set; }
         private List<Member> _members = new List<Member>();
@@ -27,7 +27,7 @@ namespace Hotel.Domain.Model
         }
 
 
-        public Customerr(int? id, string name, ContactInfo contact) : this(name, contact)
+        public Customerr(int id, string name, ContactInfo contact) : this(name, contact)
         {
             Id = id;
         }

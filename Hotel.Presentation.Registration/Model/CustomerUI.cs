@@ -15,7 +15,15 @@ namespace Hotel.Presentation.Registration.Model
             Members = members;
         }
 
-        public int? Id { get; set; }
+        public CustomerUI(int id , string name, string email, List<MemberUI>? members)
+        {
+            Id = id;
+            Name = name;
+            Email = email;
+            Members = members;
+        }
+
+        public int Id { get; set; }
         private string _name;
         public string Name { get => _name; set { _name = value;} }
         private string _email;

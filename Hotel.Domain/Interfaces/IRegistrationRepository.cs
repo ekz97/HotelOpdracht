@@ -9,6 +9,6 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IRegistrationRepository
     {
-       void AddRegistration(Registrationn registration);
+        void AddRegistration(Registrationn registration,int customerId);
     }
 }
