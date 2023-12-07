@@ -6,7 +6,7 @@ namespace Hotel.Domain.Model
     public class Member 
     {
         private string _name;
-        private DateTime? _birthday;
+        private DateTime _birthday;
 
         public string Name
         {
@@ -21,7 +21,7 @@ namespace Hotel.Domain.Model
             }
         }
 
-        public DateTime? Birthday
+        public DateTime Birthday
         {
             get { return _birthday; }
             set
@@ -35,8 +35,7 @@ namespace Hotel.Domain.Model
         }
 
  
-
-        public Member(string name, DateTime? birthday)
+        public Member(string name, DateTime birthday)
         {
             Name = name;
             Birthday = birthday;

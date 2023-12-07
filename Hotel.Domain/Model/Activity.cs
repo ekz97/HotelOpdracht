@@ -40,6 +40,7 @@ namespace Hotel.Domain.Model
         public Description Description { get; set; }
         public PriceInfo PriceInfo { get; set; }
 
+        List<Registration> registrations { get; set; }
         public Activity(int id , DateTime fixture, int nrOfPlaces , Description description , PriceInfo priceInfo)
         {
             Id = id;

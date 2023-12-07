@@ -21,5 +21,28 @@ namespace Hotel.Domain.Model
                     _id = value;
             }
         }
+        public List<Member> Members { get; set; }
+
+        public Activity Activity { get; set; }  
+
+        public double CalcCost()
+        {
+            int totalPrice = 0;
+            foreach (var member in Members)
+            {
+                TimeSpan age = DateTime.Now - member.Birthday;
+                if(Convert.ToInt32(age/365.25) >= Activity.PriceInfo.AdultAge)
+                {
+                    totalPrice += Activity.PriceInfo.AdultPrice;
+                }
+                else
+                {
+                    totalPrice += Activity.PriceInfo.ChildPrice;
+                }
+            }
+            double discountMultiplier = 1.0 - (Activity.PriceInfo.Discount / 100.0);
+            return totalPrice * discountMultiplier;
+        }
+
     }
 }
