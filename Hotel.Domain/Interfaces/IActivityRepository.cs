@@ -13,9 +13,12 @@ namespace Hotel.Domain.Interfaces
         IReadOnlyList<Description> GetAllDescriptions();
         IReadOnlyList<PriceInfo> GetAllPriceInfos();
 
-        public void AddActivity(Activity activity, int organiserId);
-        public void UpdateActivity(Activity activity);
-        public void DeleteActivity(int activityid);
+        void AddActivity(Activity activity, int organiserId);
+        void UpdateActivity(Activity activity);
+        void DeleteActivity(int activityid);
+        IReadOnlyList<Activity> GetAllActivities();
+
+
 
     }
 }

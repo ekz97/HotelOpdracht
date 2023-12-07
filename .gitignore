@@ -363,7 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Negeer SecretFile.cs in elk project
-**/Repository.cs
+**/RepositoryFactory.cs
 
-# Negeer App.Config in elk project
-**/App.config
+

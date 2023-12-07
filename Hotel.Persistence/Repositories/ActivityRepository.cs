@@ -25,6 +25,38 @@ namespace Hotel.Persistence.Repositories
             SqlConnection connection = new SqlConnection(connectionString);
             return connection;
         }
+
+        public IReadOnlyList<Activity> GetAllActivities()
+        {
+            try
+            {
+                Dictionary<int, Activity> activities = new Dictionary<int, Activity>();
+                string sql = $"SELECT a.id,a.fixture,a.nrOfPlaces,d.duration,d.location,d.explanation,d.name,p.adultPrice,p.childPrice,p.discount FROM dbo.Activity a JOIN dbo.Description d ON a.descriptionId = d.id JOIN dbo.PriceInfo p ON a.priceInfoId = p.id WHERE a.status = 1";
+                using (SqlConnection conn = getConnection())
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int ActivityId = Convert.ToInt32(reader["id"]);
+                            if (!activities.ContainsKey(ActivityId))
+                            {
+                                Activity activity = new Activity(ActivityId, (DateTime)reader["fixture"], (int)reader["nrofPlaces"], new Description((int)reader["duration"], (string)reader["location"], (string)reader["explanation"], (string)reader["name"]), new PriceInfo((int)reader["adultPrice"], (int)reader["childPrice"], (int)reader["discount"]));
+                                activities.Add(ActivityId, activity);
+                            }
+                        }
+                    }
+                }
+                return activities.Values.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new ActivityRepositoryException("GetActivitiesByOrganiserId", ex);
+            }
+        }
         public IReadOnlyList<Activity> GetActivitiesByOrganiserId(int organiserId)
         {
             try

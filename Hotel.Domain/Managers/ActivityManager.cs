@@ -40,5 +40,10 @@ namespace Hotel.Domain.Managers
         {
             _activityRepository.DeleteActivity(activityId);
         }
+
+        public IReadOnlyList<Activity> GetAllActivities()
+        {
+            return _activityRepository.GetAllActivities();
+        }
     }
 }
