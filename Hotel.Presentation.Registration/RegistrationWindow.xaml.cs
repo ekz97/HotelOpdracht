@@ -27,6 +27,8 @@ namespace Hotel.Presentation.Registration
         private CustomerUI _customer;
         private List<ActivityUI> _activityUIs = new List<ActivityUI>();
         private ActivityManager _activityManager;
+        private bool isFirstSelection = true;
+        private ActivityUI _activityUI = null;
         public RegistrationWindow(CustomerUI customer)
         {
             InitializeComponent();
@@ -48,8 +50,16 @@ namespace Hotel.Presentation.Registration
 
         private void SubmitRegistrationBtn_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
-            Close();
         }
+        
+        private void ActivityDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ActivityDataGrid.SelectedItem != null)
+            {
+                _activityUI = (ActivityUI)ActivityDataGrid.SelectedItem;
+                ActivityDataGrid.IsEnabled = false;
+            }
+        }
+  
     }
 }
