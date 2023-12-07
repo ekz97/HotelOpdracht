@@ -31,19 +31,19 @@
         <Label Grid.Row="1" Grid.Column="0" Content="Fixture" Margin="5"/>
         <Label Grid.Row="1" Grid.Column="2" Content="No. of places" Margin="5"/>
         <Label Grid.Row="3" Grid.Column="0" Content="Description" Margin="5"/>
-        <Label Grid.Row="4" Grid.Column="0" Content="Duration" Margin="5"/>
-        <Label Grid.Row="5" Grid.Column="0" Content="Location" Margin="5,5,5,0"/>
-        <Label Grid.Row="6" Grid.Column="0" Content="Explanation" Margin="5"/>
-        <Label Grid.Row="7" Grid.Column="0" Content="Name" Margin="5"/>
+        <Label Grid.Row="7" Grid.Column="0" Content="Duration" Margin="5"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Location" Margin="5,5,5,0"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="Explanation" Margin="5"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="Name" Margin="5"/>
 
         <TextBox Grid.Row="0" Grid.Column="1" Name="IdTextBox" Margin="5" VerticalAlignment="Center" IsEnabled="False" />
         <DatePicker Grid.Row="1" Grid.Column="1" Name="FixtureTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="1" Grid.Column="3" Name="NrOfPlacesTextBox" Margin="5" VerticalAlignment="Center" />
-        <ComboBox Name="DescriptionComboBox" Margin="5,5,5,0" Grid.Row="3" Grid.Column="1" Height="26" VerticalAlignment="Top" SelectionChanged="DescriptionComboBox_SelectionChanged" />
-        <TextBox Grid.Row="4" Grid.Column="1" Name="DurationTextBox" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="5" Grid.Column="1" Name="LocationTextBox" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="6" Grid.Column="1" Name="ExplanationTextBox" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="7" Grid.Column="1" Name="NameTextBox" Margin="5" VerticalAlignment="Center" />
+        <ComboBox Grid.Row="3" Grid.Column="1" Name="DescriptionComboBox" Margin="5" SelectionChanged="DescriptionComboBox_SelectionChanged" />
+        <TextBox Grid.Row="7" Grid.Column="1" Name="DurationTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="6" Grid.Column="1" Name="LocationTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="5" Grid.Column="1" Name="ExplanationTextBox" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="4" Grid.Column="1" Name="NameTextBox" Margin="5" VerticalAlignment="Center" />
 
         <!-- Right Column -->
         <Label Grid.Row="3" Grid.Column="2" Content="PriceInfo" Margin="5"/>
@@ -51,7 +51,7 @@
         <Label Grid.Row="5" Grid.Column="2" Content="Child price" Margin="5"/>
         <Label Grid.Row="6" Grid.Column="2" Content="Discount" Margin="5"/>
 
-        <ComboBox Name="PriceInfoComboBox" Margin="5" Grid.Row="3" Grid.Column="3" SelectionChanged="PriceInfoComboBox_SelectionChanged" />
+        <ComboBox Grid.Row="3" Grid.Column="3" Name="PriceInfoComboBox" Margin="5"  SelectionChanged="PriceInfoComboBox_SelectionChanged" />
         <TextBox Grid.Row="4" Grid.Column="3" Name="AdultPriceTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="5" Grid.Column="3" Name="ChildPriceTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="6" Grid.Column="3" Name="DiscountTextBox" Margin="5" VerticalAlignment="Center" />

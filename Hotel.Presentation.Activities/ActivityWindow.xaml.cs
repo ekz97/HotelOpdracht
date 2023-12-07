@@ -58,9 +58,6 @@ namespace Hotel.Presentation.Activities
                 AdultPriceTextBox.Text = _activity.PriceInfo.AdultPrice.ToString();
                 ChildPriceTextBox.Text = _activity.PriceInfo.ChildPrice.ToString();
                 DiscountTextBox.Text = _activity.PriceInfo.Discount.ToString();
-                
-
-
             }
             foreach (var description in _activityManager.GetDescriptions())
             {
@@ -125,7 +122,7 @@ namespace Hotel.Presentation.Activities
             }
             else
             {
-               
+               UpdateActivity();
             }
 
             DialogResult = true;
@@ -136,10 +133,7 @@ namespace Hotel.Presentation.Activities
         private void UpdateActivity()
         {
             Activity activity = new Activity(Convert.ToInt32(IdTextBox.Text), Convert.ToDateTime(FixtureTextBox.SelectedDate), Convert.ToInt32(NrOfPlacesTextBox.Text), new Description(Convert.ToInt32(DurationTextBox.Text), LocationTextBox.Text, ExplanationTextBox.Text, NameTextBox.Text), new PriceInfo(Convert.ToInt32(AdultPriceTextBox.Text), Convert.ToInt32(ChildPriceTextBox.Text), Convert.ToInt32(DiscountTextBox.Text)));
-
-
-           
-
+            _activityManager.UpdateActivity(activity);
         }
 
         private void AddActivity()
@@ -150,7 +144,11 @@ namespace Hotel.Presentation.Activities
 
         public void DeleteActivity()
         {
-
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this customer?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                _activityManager.DeleteActivity(_activity.Id);
+            }
         }
     }
 

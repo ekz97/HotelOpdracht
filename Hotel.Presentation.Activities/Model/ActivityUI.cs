@@ -9,13 +9,13 @@ namespace Hotel.Presentation.Activities.Model
 {
     public class ActivityUI : INotifyPropertyChanged
     {
-        public ActivityUI(DateTime fixture, int nrOfPlaces)
+        public ActivityUI(string fixture, int nrOfPlaces)
         {
             Fixture = fixture;
             NrOfPlaces = nrOfPlaces;
         }
 
-        public ActivityUI(int? id, DateTime fixture, int nrOfPlaces, DescriptionUI description, PriceInfoUI priceInfo)
+        public ActivityUI(int id, string fixture, int nrOfPlaces, DescriptionUI description, PriceInfoUI priceInfo)
         {
             Id = id;
             Fixture = fixture;
@@ -24,42 +24,30 @@ namespace Hotel.Presentation.Activities.Model
             PriceInfo = priceInfo;
         }
 
-        private int? _id;
-        public int? Id
+        private int _id;
+        public int Id
         {
-            get => _id;
+            get { return _id; }
             set { _id = value; }
         }
 
-        private DateTime _fixture;
-        public DateTime Fixture
+        private string _fixture;
+        public string Fixture
         {
-            get => _fixture;
+            get { return _fixture; }
             set
             {
-                if (value < DateTime.Now)
-                    throw new ActivityException("Fixture date cannot be in the past");
-                else
-                {
-                    _fixture = value;
-              
-                }
+                _fixture = value;
             }
         }
 
         private int _nrOfPlaces;
         public int NrOfPlaces
         {
-            get => _nrOfPlaces;
+            get { return _nrOfPlaces; }
             set
             {
-                if (value <= 0)
-                    throw new ActivityException("Number of places should be greater than zero");
-                else
-                {
-                    _nrOfPlaces = value;
-       
-                }
+                _nrOfPlaces = value;
             }
         }
 
