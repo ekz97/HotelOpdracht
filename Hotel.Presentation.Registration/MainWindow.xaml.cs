@@ -43,6 +43,18 @@ namespace Hotel.Presentation.Registration
 
         private void SelectCustomerBtn_Click(object sender, RoutedEventArgs e)
         {
+            if(CustomerComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Select a customer.", "Select", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                RegistrationWindow window = new RegistrationWindow((CustomerUI)CustomerComboBox.SelectedItem);
+                if (window.ShowDialog() == true)
+                {
+
+                }           
+            }
         }
     }
 }

@@ -25,6 +25,18 @@ namespace Hotel.Presentation.Registration
         {
             InitializeComponent();
              _customer = customer;
+            MemberDataGrid.ItemsSource = _customer.Members;
+        }
+
+        private void AddMemberBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SubmitRegistrationBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            Close();
         }
     }
 }
