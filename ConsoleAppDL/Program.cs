@@ -8,7 +8,7 @@ namespace ConsoleAppDL
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-            string conn = "Data Source=MSI\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
+            string conn = "Data Source=localhost;Initial Catalog=HotelDonderdag;Integrated Security=True;TrustServerCertificate=true";
             CustomerRepository repo = new CustomerRepository(conn);
             ////var x = repo.GetCustomers("ge");
             //Customer c = new Customer("Bart", new ContactInfo("bart@yahoo", "013456", new Address("Gent", "Kerkstraat", "9000", "185")));
@@ -19,16 +19,16 @@ namespace ConsoleAppDL
             var customer = repo.GetCustomers("bart");
 
 
-            foreach(var p in customer)
+            foreach (var p in customer)
             {
                 Console.WriteLine(p.Name.ToString());
                 Console.WriteLine(p.Id.ToString());
                 IReadOnlyList<Member> members = p.GetMembers();
-                for (int i=0; i < members.Count; i++)
+                for (int i = 0; i < members.Count; i++)
                 {
                     Console.WriteLine(members[i].Name.ToString());
                     Console.WriteLine(members[i].Birthday.ToString());
-                  
+
 
                 }
             }
@@ -38,20 +38,32 @@ namespace ConsoleAppDL
             var organisers = organisorRepository.GetOrganisers();
 
 
-            foreach(var o in organisers)
+            foreach (var o in organisers)
             {
                 Console.WriteLine(o.Name.ToString());
                 Console.WriteLine(o.Id.ToString());
-    
+
             }
 
             ActivityRepository activityRepository = new ActivityRepository(conn);
 
             var activities = activityRepository.GetActivitiesByOrganiserId(9);
-            foreach(var activity in activities)
+            foreach (var activity in activities)
             {
                 Console.WriteLine(activity.NrOfPlaces + " | " + activity.Description.Explanation + " | " + activity.PriceInfo.AdultPrice);
             }
+
+
+
+            RegistrationRepository registrationRepository = new RegistrationRepository(conn);
+
+            var memberss = registrationRepository.GetRegistratedMembersForActivity(2, 17);
+            foreach(Member member in memberss)
+            {
+                Console.WriteLine(member.Name);
+
+            }
+
         }
 
     }

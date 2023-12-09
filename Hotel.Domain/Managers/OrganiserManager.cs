@@ -27,7 +27,7 @@ namespace Hotel.Domain.Managers
             }
             catch (OrganiserManagerException ex)
             {
-                throw new OrganiserManagerException("GetCustomers");
+                throw new OrganiserManagerException("GetCustomers",ex);
             }
         }
 

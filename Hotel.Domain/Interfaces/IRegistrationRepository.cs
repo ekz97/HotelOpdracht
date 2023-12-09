@@ -10,5 +10,6 @@ namespace Hotel.Domain.Interfaces
     public interface IRegistrationRepository
     {
         void AddRegistration(Registrationn registration,int customerId);
+        IReadOnlyList<Member> GetRegistratedMembersForActivity(int customerId, int activityId);
     }
 }

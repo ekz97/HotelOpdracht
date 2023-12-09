@@ -27,7 +27,7 @@ namespace Hotel.Presentation.Registration
         private CustomerUI _customer;
         private List<ActivityUI> _activityUIs = new List<ActivityUI>();
         private RegistrationUI _registrationUI = new RegistrationUI();
-        private bool isFirstSelection = true;
+        private List<MemberUI> _registeredMemberUis = new List<MemberUI>();
 
 
 
@@ -83,6 +83,10 @@ namespace Hotel.Presentation.Registration
             if (ActivityDataGrid.SelectedItem != null)
             {
                 _registrationUI.Activity = (ActivityUI)ActivityDataGrid.SelectedItem;
+                foreach (var member in _registrationManager.GetRegistratedMembersForActivity(_customer.Id, _registrationUI.Activity.Id))
+                {
+                    _registeredMemberUis.Add(new MemberUI(member.Name, member.Birthday));
+                }
                 ActivityDataGrid.IsEnabled = false;
             }
         }

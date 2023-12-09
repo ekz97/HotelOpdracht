@@ -17,9 +17,9 @@ namespace Hotel.Domain.Model
             get { return _fixture; }
             set
             {
-                if (value < DateTime.Now || value == DateTime.MinValue)
-                    throw new ActivityException("Fixture date cannot be in the past");
-                else
+                //if (value < DateTime.Now || value == DateTime.MinValue)
+                //    throw new ActivityException("Fixture date cannot be in the past");
+                //else
                     _fixture = value;
             }
         }

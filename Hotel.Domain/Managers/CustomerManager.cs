@@ -27,7 +27,7 @@ namespace Hotel.Domain.Managers
             }
             catch(CustomerManagerException ex)
             {
-                throw new CustomerManagerException("GetCustomers");
+                throw new CustomerManagerException("GetCustomers",ex);
             }
         }
 

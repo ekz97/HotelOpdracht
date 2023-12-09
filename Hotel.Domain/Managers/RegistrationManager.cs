@@ -26,7 +26,19 @@ namespace Hotel.Domain.Managers
             }
             catch (Exception ex)
             {
-                throw new RegistrationManagerException("AddRegistration");
+                throw new RegistrationManagerException("AddRegistration",ex);
+            }
+        }
+
+        public IReadOnlyList<Member> GetRegistratedMembersForActivity(int customerId, int activityId)
+        {
+            try
+            {
+                return _registrationRepository.GetRegistratedMembersForActivity(customerId, activityId);
+            }
+            catch (Exception ex)
+            {
+                throw new RegistrationManagerException("GetRegistratedMembersForActivity",ex);
             }
         }
     }
