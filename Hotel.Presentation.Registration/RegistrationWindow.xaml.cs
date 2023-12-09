@@ -30,7 +30,6 @@ namespace Hotel.Presentation.Registration
         private List<MemberUI> _registeredMemberUis = new List<MemberUI>();
 
 
-
         private ActivityManager _activityManager;
         private RegistrationManager _registrationManager;
 
@@ -39,6 +38,8 @@ namespace Hotel.Presentation.Registration
             InitializeComponent();
             _activityManager = new ActivityManager(RepositoryFactory.ActivityRepository);
             _registrationManager = new RegistrationManager(RepositoryFactory.RegistrationRepository);
+
+            MemberDataGrid.LoadingRow += MemberDataGrid_LoadingRow;
 
             _customer = customer;
             MemberDataGrid.ItemsSource = _customer.Members;
@@ -49,6 +50,27 @@ namespace Hotel.Presentation.Registration
             ActivityDataGrid.ItemsSource = _activityUIs;
 
         }
+        private void RefreshRegistredMembers()
+        {
+            _registeredMemberUis.Clear();
+
+            foreach (var member in _registrationManager.GetRegistratedMembersForActivity(_customer.Id, _registrationUI.Activity.Id))
+            {
+                _registeredMemberUis.Add(new MemberUI(member.Name, member.Birthday));
+            }
+
+            // Refresh de weergave van de DataGrid
+            MemberDataGrid.Items.Refresh();
+
+        }
+        private void Reset()
+        {
+            _registrationUI.Activity = null;
+            _registeredMemberUis.Clear();
+            ActivityDataGrid.IsEnabled = true;
+            MemberDataGrid.SelectedItem = null;
+            ActivityDataGrid.SelectedItem = null;
+        }
 
         private void AddMemberBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -56,11 +78,14 @@ namespace Hotel.Presentation.Registration
             {
                 if (MemberDataGrid.SelectedItem != null)
                 {
-                    if (!_registrationUI.Members.Contains(MemberDataGrid.SelectedItem))
+                    if (!_registeredMemberUis.Contains((MemberUI)MemberDataGrid.SelectedItem))
                     {
                         _registrationUI.Members.Add((MemberUI)MemberDataGrid.SelectedItem);
+                        _registeredMemberUis.Add((MemberUI)MemberDataGrid.SelectedItem);
+
                         MessageBox.Show($"{_registrationUI.Members[_registrationUI.Members.Count - 1].Name} is toegevoegd aan {_registrationUI.Activity.Description.Name}");
                         MemberDataGrid.SelectedItem = null;
+
                     }
                     else
                     {
@@ -83,11 +108,9 @@ namespace Hotel.Presentation.Registration
             if (ActivityDataGrid.SelectedItem != null)
             {
                 _registrationUI.Activity = (ActivityUI)ActivityDataGrid.SelectedItem;
-                foreach (var member in _registrationManager.GetRegistratedMembersForActivity(_customer.Id, _registrationUI.Activity.Id))
-                {
-                    _registeredMemberUis.Add(new MemberUI(member.Name, member.Birthday));
-                }
                 ActivityDataGrid.IsEnabled = false;
+                RefreshRegistredMembers();
+
             }
         }
 
@@ -103,6 +126,43 @@ namespace Hotel.Presentation.Registration
                 Registrationn registration = new Registrationn(members, new Activity(_registrationUI.Activity.Id, Convert.ToDateTime(_registrationUI.Activity.Fixture), _registrationUI.Activity.NrOfPlaces, new Description(_registrationUI.Activity.Description.Duration, _registrationUI.Activity.Description.Location, _registrationUI.Activity.Description.Explanation, _registrationUI.Activity.Description.Name),new PriceInfo(_registrationUI.Activity.PriceInfo.AdultPrice,_registrationUI.Activity.PriceInfo.ChildPrice,_registrationUI.Activity.PriceInfo.Discount)));
                 _registrationManager.AddRegistration(registration, _customer.Id);
                 MessageBox.Show(registration.CalcCost().ToString("€ 0.00"));
+                RefreshRegistredMembers();
+                Reset();
+            }
+            else
+            {
+                MessageBox.Show("Add a member before submitting.", "Sumbit", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void MemberDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            MemberUI member = e.Row.Item as MemberUI;
+
+            if (member != null && _registeredMemberUis.Contains(member))
+            {
+                e.Row.Background = Brushes.LightGreen; // Je kunt hier je gewenste achtergrondkleur instellen
+            }
+        }
+
+        private void GoBackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if(_registrationUI.Activity != null) 
+            {
+
+                Reset();
+                foreach (var item in MemberDataGrid.Items)
+                {
+                    DataGridRow row = (DataGridRow)MemberDataGrid.ItemContainerGenerator.ContainerFromItem(item);
+                    if (row != null)
+                    {
+                        row.Background = Brushes.White; // Reset de achtergrondkleur naar standaardwaarde
+                    }
+                }
+            }
+            else
+            {
+                Close();
             }
         }
     }

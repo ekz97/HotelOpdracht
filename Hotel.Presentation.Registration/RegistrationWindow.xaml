@@ -14,8 +14,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="MemberDataGrid" Grid.Column="0" Grid.Row="0" Margin="5" IsReadOnly="True"/>
+        <DataGrid Name="MemberDataGrid" Grid.Column="0" Grid.Row="0" Margin="5" IsReadOnly="True" LoadingRow="MemberDataGrid_LoadingRow"/>
         <DataGrid Name="ActivityDataGrid" Grid.Column="1" Grid.Row="0" Margin="5" SelectionChanged="ActivityDataGrid_SelectionChanged" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Description.Name}"/>
@@ -29,7 +30,8 @@
                 <DataGridTextColumn Header="Discount" Binding="{Binding PriceInfo.Discount}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Name="AddMemberBtn" Content="Add member" Grid.Column="0" Grid.Row="1" Margin="5" Click="AddMemberBtn_Click"/>
-        <Button Name="SubmitRegistrationBtn" Content="Sumbit" Grid.Column="1" Grid.Row="1" Margin="5" Click="SubmitRegistrationBtn_Click"/>
+        <Button Name="AddMemberBtn" Content="Add member" Grid.Column="0" Grid.Row="2" Margin="5" Click="AddMemberBtn_Click"/>
+        <Button Name="SubmitRegistrationBtn" Content="Sumbit" Grid.Column="1" Grid.Row="2" Margin="5" Click="SubmitRegistrationBtn_Click"/>
+        <Button Name="GoBackBtn" Content="Go Back" Grid.Column="1" Grid.Row="1" Margin="5" Click="GoBackBtn_Click"/>
     </Grid>
 </Window>

@@ -9,6 +9,8 @@ namespace Hotel.Presentation.Activities.Model
 {
     public class ActivityUI : INotifyPropertyChanged
     {
+
+
         public ActivityUI(string fixture, int nrOfPlaces)
         {
             Fixture = fixture;

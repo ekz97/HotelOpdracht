@@ -18,6 +18,16 @@ namespace Hotel.Presentation.Registration.Model
             Birthday = birthday;
         }
 
-  
+        public override bool Equals(object? obj)
+        {
+            return obj is MemberUI uI &&
+                   Name == uI.Name &&
+                   Birthday == uI.Birthday;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Birthday);
+        }
     }
 }
