@@ -18,7 +18,7 @@ namespace Hotel.Presentation.Customer
 {
     public partial class CustomerWindow : Window
     {
-        private CustomerUI? _customerUI { get; set; }
+        private CustomerUI _customerUI { get; set; }
         private ObservableCollection<MemberUI> _members = new ObservableCollection<MemberUI>();
         private CustomerManager customerManager;
 
@@ -37,7 +37,7 @@ namespace Hotel.Presentation.Customer
             else
             {
                 AddButton.Content = "Update";
-                IdTextBox.Text = _customerUI.Id?.ToString();
+                IdTextBox.Text = _customerUI.Id.ToString();
                 NameTextBox.Text = _customerUI.Name;
                 EmailTextBox.Text = _customerUI.Email;
                 PhoneTextBox.Text = _customerUI.Phone;

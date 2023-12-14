@@ -17,7 +17,7 @@ namespace Hotel.Presentation.Customer.Model
             NrOfMembers = nrOfMembers;      
         }
 
-        public CustomerUI(int? id, string name, string email, string address, string phone, int nrOfMembers, List<MemberUI>? members)
+        public CustomerUI(int id, string name, string email, string address, string phone, int nrOfMembers, List<MemberUI>? members)
         {
             Id = id;
             Name = name;
@@ -28,7 +28,7 @@ namespace Hotel.Presentation.Customer.Model
             Members = members;
         }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
         private string _name;
         public string Name { get => _name; set { _name = value;/* OnPropertyChanged();*/ } }
         private string _email;

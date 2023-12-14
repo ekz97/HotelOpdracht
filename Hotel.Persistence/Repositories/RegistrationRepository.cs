@@ -46,8 +46,7 @@ namespace Hotel.Persistence.Repositories
                     string insertMemberRegistration = "INSERT INTO MemberRegistration (memberName, memberBirthday, memberCustomerId, registrationId) VALUES (@memberName, @memberBirthday, @memberCustomerId, @registrationId)";
 
           
-           
-
+          
                     foreach (Member member in registration.Members)
                     {
                         cmd.CommandText = insertMemberRegistration;

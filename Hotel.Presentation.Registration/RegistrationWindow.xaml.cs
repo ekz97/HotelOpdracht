@@ -61,11 +61,13 @@ namespace Hotel.Presentation.Registration
 
             // Refresh de weergave van de DataGrid
             MemberDataGrid.Items.Refresh();
+            
 
         }
         private void Reset()
         {
-            _registrationUI.Activity = null;
+
+            _registrationUI = new RegistrationUI();
             _registeredMemberUis.Clear();
             ActivityDataGrid.IsEnabled = true;
             MemberDataGrid.SelectedItem = null;
@@ -78,12 +80,21 @@ namespace Hotel.Presentation.Registration
             {
                 if (MemberDataGrid.SelectedItem != null)
                 {
-                    if (!_registeredMemberUis.Contains((MemberUI)MemberDataGrid.SelectedItem))
-                    {
-                        _registrationUI.Members.Add((MemberUI)MemberDataGrid.SelectedItem);
-                        _registeredMemberUis.Add((MemberUI)MemberDataGrid.SelectedItem);
+                    MemberUI selectedMember = (MemberUI)MemberDataGrid.SelectedItem;
 
-                        MessageBox.Show($"{_registrationUI.Members[_registrationUI.Members.Count - 1].Name} is toegevoegd aan {_registrationUI.Activity.Description.Name}");
+                    if (!_registeredMemberUis.Contains(selectedMember))
+                    {
+                        _registrationUI.Members.Add(selectedMember);
+                        _registeredMemberUis.Add(selectedMember);
+
+                        MessageBox.Show($"{selectedMember.Name} is toegevoegd aan {_registrationUI.Activity.Description.Name}");
+
+                        DataGridRow selectedRow = (DataGridRow)MemberDataGrid.ItemContainerGenerator.ContainerFromItem(selectedMember);
+                        if (selectedRow != null)
+                        {
+                            selectedRow.Background = Brushes.LightBlue;
+                        }
+
                         MemberDataGrid.SelectedItem = null;
 
                     }
@@ -116,7 +127,7 @@ namespace Hotel.Presentation.Registration
 
         private void SubmitRegistrationBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(_registrationUI.Activity != null && _registrationUI.Members != null)
+            if(_registrationUI.Activity != null && _registrationUI.Members.Count > 0)
             {
                 List<Member> members = new List<Member>();
                 foreach(MemberUI member in _registrationUI.Members)

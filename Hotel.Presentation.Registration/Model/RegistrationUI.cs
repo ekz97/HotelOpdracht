@@ -11,6 +11,6 @@ namespace Hotel.Presentation.Registration.Model
     {
         public int Id { get; set; }
         public ActivityUI Activity { get; set; }
-        public List<MemberUI> Members { get; set; }
+        public List<MemberUI> Members { get; set; } = new List<MemberUI>();
     }
 }
