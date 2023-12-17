@@ -74,22 +74,22 @@ namespace Hotel.Tests.Hotel.Persistence.Tests
             // Add other relevant assertions to verify the correct customer is retrieved
         }
 
-        //[Fact]
-        //public void Test_UpdateCustomer_Valid()
-        //{
-        //    // Arrange
-        //    int customerId = 1;
-        //    var address = new Address("UpdatedCity", "UpdatedStreet", "UpdatedZip", "UpdatedHouseNumber");
-        //    var contactInfo = new ContactInfo("updated@example.com", "987654321", address);
-        //    var updatedCustomer = new Customerr(customerId, "Updated Name", contactInfo);
+        [Fact]
+        public void Test_UpdateCustomer_Valid()
+        {
+            // Arrange
+            int customerId = 1;
+            var address = new Address("UpdatedCity", "UpdatedStreet", "UpdatedZip", "UpdatedHouseNumber");
+            var contactInfo = new ContactInfo("updated@example.com", "987654321", address);
+            var updatedCustomer = new Customerr(customerId, "Updated Name", contactInfo);
 
-        //    // Act
-        //    customerManager.UpdateCustomer(updatedCustomer);
+            // Act
+            customerManager.UpdateCustomer(updatedCustomer);
 
-        //    // Assert
-        //    mockCustomerRepository.Verify(r => r.UpdateCustomer(updatedCustomer), Times.Once);
-        //    // Add other relevant assertions to verify the update is performed correctly
-        //}
+            // Assert
+            mockCustomerRepository.Verify(r => r.UpdateCustomer(updatedCustomer), Times.Once);
+            // Add other relevant assertions to verify the update is performed correctly
+        }
 
         [Fact]
         public void Test_DeleteCustomer_Valid()

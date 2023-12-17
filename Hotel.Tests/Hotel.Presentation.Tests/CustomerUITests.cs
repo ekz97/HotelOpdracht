@@ -42,7 +42,7 @@ namespace Hotel.Tests.Hotel.Presentation.Tests
             // Assert
             Assert.Empty(customerUI.Members);
 
-            //
+            
         }
 
 

@@ -113,6 +113,9 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("getcustomerbyid", ex);
             }
         }
+
+
+      
         public void AddCustomer(Customerr customer)
         {
             try
@@ -194,22 +197,34 @@ namespace Hotel.Persistence.Repositories
                         }
 
                         // Nu moeten de leden van de klant worden bijgewerkt
-                        string deleteMembersSql = "DELETE FROM Member WHERE customerId = @customerId";
-                        cmd.CommandText = deleteMembersSql;
+                        string updateMembersStatusSql = "UPDATE Member SET status = 0 WHERE customerId = @customerId";
+                        cmd.CommandText = updateMembersStatusSql;
                         cmd.ExecuteNonQuery();
 
                         // Voeg de bijgewerkte leden toe
                         foreach (Member member in customer.GetMembers())
                         {
-                            string insertMemberSql = "INSERT INTO Member(customerId, name, birthday, status) VALUES (@customerId, @name, @birthday, @status)";
-                            cmd.CommandText = insertMemberSql;
-                            cmd.Parameters.Clear();
-                            cmd.Parameters.AddWithValue("@customerId", customer.Id);
-                            cmd.Parameters.AddWithValue("@name", member.Name);
-                            cmd.Parameters.AddWithValue("@birthday", member.Birthday);
-                            cmd.Parameters.AddWithValue("@status", 1);
-                            cmd.ExecuteNonQuery();
+                            string mergeMemberSql = @"
+                            MERGE INTO Member AS target
+                            USING (SELECT @customerId AS customerId, @name AS name, @birthday AS birthday) AS source
+                            ON (target.customerId = source.customerId AND target.name = source.name AND target.birthday = source.birthday)
+                            WHEN MATCHED THEN
+                                UPDATE SET target.status = 1
+                            WHEN NOT MATCHED THEN
+                                INSERT (customerId, name, birthday, status)
+                                VALUES (@customerId, @name, @birthday, @status);";
+
+                            using (SqlCommand mergeCmd = new SqlCommand(mergeMemberSql, conn, sqlTransaction))
+                            {
+                                mergeCmd.Parameters.AddWithValue("@customerId", customer.Id);
+                                mergeCmd.Parameters.AddWithValue("@name", member.Name);
+                                mergeCmd.Parameters.AddWithValue("@birthday", member.Birthday);
+                                mergeCmd.Parameters.AddWithValue("@status", 1);
+                                mergeCmd.ExecuteNonQuery();
+                            }
                         }
+
+
 
                         sqlTransaction.Commit();
                     }
