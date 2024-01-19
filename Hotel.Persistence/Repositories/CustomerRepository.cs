@@ -201,26 +201,38 @@ namespace Hotel.Persistence.Repositories
                         cmd.CommandText = updateMembersStatusSql;
                         cmd.ExecuteNonQuery();
 
-                        // Voeg de bijgewerkte leden toe
                         foreach (Member member in customer.GetMembers())
                         {
-                            string mergeMemberSql = @"
-                            MERGE INTO Member AS target
-                            USING (SELECT @customerId AS customerId, @name AS name, @birthday AS birthday) AS source
-                            ON (target.customerId = source.customerId AND target.name = source.name AND target.birthday = source.birthday)
-                            WHEN MATCHED THEN
-                                UPDATE SET target.status = 1
-                            WHEN NOT MATCHED THEN
-                                INSERT (customerId, name, birthday, status)
-                                VALUES (@customerId, @name, @birthday, @status);";
+                            string updateMemberSql = @"
+                                UPDATE Member 
+                                SET status = 1 
+                                WHERE customerId = @customerId 
+                                  AND name = @name 
+                                  AND birthday = @birthday";
 
-                            using (SqlCommand mergeCmd = new SqlCommand(mergeMemberSql, conn, sqlTransaction))
+                            using (SqlCommand updateMemberCmd = new SqlCommand(updateMemberSql, conn, sqlTransaction))
                             {
-                                mergeCmd.Parameters.AddWithValue("@customerId", customer.Id);
-                                mergeCmd.Parameters.AddWithValue("@name", member.Name);
-                                mergeCmd.Parameters.AddWithValue("@birthday", member.Birthday);
-                                mergeCmd.Parameters.AddWithValue("@status", 1);
-                                mergeCmd.ExecuteNonQuery();
+                                updateMemberCmd.Parameters.AddWithValue("@customerId", customer.Id);
+                                updateMemberCmd.Parameters.AddWithValue("@name", member.Name);
+                                updateMemberCmd.Parameters.AddWithValue("@birthday", member.Birthday);
+                                int updateRows = updateMemberCmd.ExecuteNonQuery();
+
+                                if (updateRows == 0)
+                                {
+                                    // Als er geen rijen zijn bijgewerkt, voeg een nieuwe rij toe
+                                    string insertMemberSql = @"
+                                    INSERT INTO Member (customerId, name, birthday, status)
+                                    VALUES (@customerId, @name, @birthday, @status)";
+
+                                    using (SqlCommand insertMemberCmd = new SqlCommand(insertMemberSql, conn, sqlTransaction))
+                                    {
+                                        insertMemberCmd.Parameters.AddWithValue("@customerId", customer.Id);
+                                        insertMemberCmd.Parameters.AddWithValue("@name", member.Name);
+                                        insertMemberCmd.Parameters.AddWithValue("@birthday", member.Birthday);
+                                        insertMemberCmd.Parameters.AddWithValue("@status", 1);
+                                        insertMemberCmd.ExecuteNonQuery();
+                                    }
+                                }
                             }
                         }
 
